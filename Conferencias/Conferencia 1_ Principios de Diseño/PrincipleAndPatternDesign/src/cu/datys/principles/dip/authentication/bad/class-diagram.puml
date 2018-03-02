@@ -1,0 +1,29 @@
+@startuml
+skinparam backgroundcolor transparent
+skinparam classFontSize 18
+skinparam noteFontSize 18
+skinparam arrowFontSize 18
+skinparam classAttributeFontSize 18
+
+skinparam titleFontColor #c9302c
+
+Title DIP: Uso incorrecto
+
+class User{
+    - int id
+    + int getId()
+    + void setId(int id)
+}
+
+class SimpleAuthentication{
+    + boolean authenticate(User user)
+}
+
+SimpleAuthentication --> User: use
+
+class LoginManager{
+    + void login(User user)
+}
+
+LoginManager --> SimpleAuthentication: use
+@enduml

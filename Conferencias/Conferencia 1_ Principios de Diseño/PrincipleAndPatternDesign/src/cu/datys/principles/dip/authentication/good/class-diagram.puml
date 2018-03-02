@@ -1,0 +1,34 @@
+@startuml
+skinparam backgroundcolor transparent
+skinparam classFontSize 18
+skinparam noteFontSize 18
+skinparam arrowFontSize 18
+skinparam classAttributeFontSize 18
+
+skinparam titleFontColor #5cb85c
+
+Title DIP: Uso correcto
+
+class User{
+    - int id
+        + int getId()
+        + void setId(int id)
+}
+
+interface Authenticator{
+    + boolean authenticate(User user)
+}
+
+Authenticator --> User:use
+
+class SimpleAuthenticator implements Authenticator
+class LDAPAuthenticator implements Authenticator
+
+class LoginManager{
+    + void setAuthenticator(Authenticator authenticator)
+    + void login(User user)
+}
+
+LoginManager *-- Authenticator
+
+@enduml
