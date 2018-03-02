@@ -13,6 +13,6 @@ Los temas que se abordan en este curso son los Principios de Diseño más utiliz
 ## Temas del curso
 
 1) Principios de Diseño
-    * ¿Qué es un principio de diseño?
-        - Test
+    - ¿Qué es un principio de diseño?
+        * Test
 
