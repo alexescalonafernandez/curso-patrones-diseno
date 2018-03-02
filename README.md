@@ -1,5 +1,5 @@
 # Curso de Patrones de Diseño en Java
-# Curso de Principios de Diseño, Patrones de Diseños GoF y Programación Modular en Java
+# Curso de Patrones de Diseños GoF y Programación Modular en Java
 Curso de Principios de Diseño, Patrones de Diseños GoF y Programación Modular en Java
 
 
