@@ -1,5 +1,5 @@
 # Curso de Patrones de Diseño en Java
-# Curso de Patrones de Diseños GoF y Programación Modular en Java
+# Curso de Patrones de Diseños y Programación Modular en Java
 Curso de Principios de Diseño, Patrones de Diseños GoF y Programación Modular en Java
 
 
@@ -40,4 +40,29 @@ Los temas que se abordan en este curso son los Principios de Diseño más utiliz
     - Principio PLK (Principle of Least Knowledge)
     - Principio SoC (Separation of Concerns)
     - Principio IoC (Inversion of Control)
+2) [Patrones de Diseño Creacionales](/Conferencias/Conferencia%202_%20Patrones%20de%20Diseño%20Creacionales)
+    - ¿Qué es un patrón de diseño?
+    - ¿Cuáles patrones debo conocer?
+    - ¿Cómo estudiar los patrones GoF?
+    - ¿Qué es un patrón creacional?
+    - Patrón Factory Method
+        * Definición
+        * Estructura
+        * Ejemplo
+    - Patrón Abstract Factory
+        * Definición
+        * Estructura
+        * Ejemplo
+    - Patrón Singleton
+        * Definición
+        * Estructura
+        * Ejemplo
+    - Patrón Builder
+        * Definición
+        * Estructura
+        * Ejemplo
+    - Patrón Prototype
+        * Definición
+        * Estructura
+        * Ejemplo
 
