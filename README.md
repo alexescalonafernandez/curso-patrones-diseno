@@ -138,5 +138,24 @@ Los temas que se abordan en este curso son los Principios de Diseño más utiliz
         * Definición
         * Estructura
         * Ejemplo
+5) [Patrones de Diseño en la Programación Modular](/Conferencias/Conferencia%205_%20Patrones%20de%20Diseño%20en%20la%20Programación%20Modular)
+    - ¿Qué es un diseño modular? 
+    - ¿Qué es la programación modular?
+    - Programación modular: SPI
+    - Programación modular: Service Locator
+    - Programación modular: Relación SPI – IoC
+    - Programación modular: SPI en Java
+    - Programación modular: Lookup
+    - Programación modular: Lookup en Java
+    - Programación modular: Demo
+        * Módulo service_locator
+        * Módulo null_object
+        * Módulo entity
+        * Módulo null_entity
+        * Módulo data_layer
+        * Módulo dao
+        * Módulo repository
+        * Módulo app
+
 
 
