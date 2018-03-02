@@ -10,3 +10,8 @@ Todos los frameworks están construidos apoyándose en los distintos patrones de
 
 Los temas que se abordan en este curso son los Principios de Diseño más utilizados, ya que ellos constituyen la base sobre la cual se elaboran los patrones de diseño. También se abordan los Patrones de Diseño GoF (Gang of Four) que son los patrones más populares, de los cuales se derivan otros que han surgido.
 
+## Temas del curso
+
+1) Principios de Diseño
+    * ¿Qué es un principio de diseño?
+
