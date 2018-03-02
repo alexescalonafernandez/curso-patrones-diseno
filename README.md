@@ -62,4 +62,34 @@ Los temas que se abordan en este curso son los Principios de Diseño más utiliz
         * Definición
         * Estructura
         * Ejemplo
+3) [Patrones de Diseño Estructurales](/Conferencias/Conferencia%203_%20Patrones%20de%20Diseño%20Estructurales)
+    - ¿Qué es un patrón estructural?
+    - Patrón Adapter
+        * Definición
+        * Estructura
+        * Ejemplo
+    - Patrón Bridge
+        * Definición
+        * Estructura
+        * Ejemplo
+    - Patrón Composite
+        * Definición
+        * Estructura
+        * Ejemplo
+    - Patrón Decorator
+        * Definición
+        * Estructura
+        * Ejemplo
+    - Patrón Facade
+        * Definición
+        * Estructura
+        * Ejemplo
+    - Patrón Flyweight
+        * Definición
+        * Estructura
+        * Ejemplo
+    - Patrón Proxy
+        * Definición
+        * Estructura
+        * Ejemplo
 
