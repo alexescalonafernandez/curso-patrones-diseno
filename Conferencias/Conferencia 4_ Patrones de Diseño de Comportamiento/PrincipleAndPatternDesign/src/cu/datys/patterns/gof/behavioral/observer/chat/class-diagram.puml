@@ -1,0 +1,65 @@
+@startuml
+
+skinparam backgroundcolor transparent
+skinparam classFontSize 18
+skinparam noteFontSize 18
+skinparam arrowFontSize 18
+skinparam classAttributeFontSize 18
+
+skinparam titleFontColor #5cb85c
+
+Title Observer Pattern Example with API Java
+
+interface java.util.Observer{
+    + void update(Observable o, Object arg)
+}
+
+class java.util.Observable{
+    + void addObserver(Observer o)
+    + void deleteObserver(Observer o)
+    + void notifyObservers()
+    + void notifyObservers(Object arg)
+    + void setChanged()
+}
+
+class ChatRoom extends java.util.Observable{
+    void send(String message, ChatUser user)
+}
+
+class Message{
+    + final ChatUser user
+    + final String data
+    + Message(ChatUser user, String data)
+}
+
+class ChatUser implements java.util.Observer{
+    - ChatRoom chatRoom
+    - String name
+    + ChatUser(ChatRoom chatRoom, String name)
+    + void update(Observable o, Object arg)
+    + void send(String message)
+}
+
+java.util.Observable "1" o- "n" java.util.Observer
+
+ChatUser *-- ChatRoom
+ChatRoom +-up- Message
+
+
+note left of ChatUser::update
+    ChatRoom.Message message =
+        (ChatRoom.Message) arg;
+    if(!this.equals(message.user))
+        // do something
+end note
+
+note left of ChatUser::send
+    chatRoom.send(message, this);
+end note
+
+note right of ChatRoom
+    setChanged();
+    notifyObservers(new Message(user, message));
+end note
+
+@enduml

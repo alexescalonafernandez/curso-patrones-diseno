@@ -1,0 +1,63 @@
+@startuml
+
+skinparam backgroundcolor transparent
+skinparam classFontSize 18
+skinparam noteFontSize 18
+skinparam arrowFontSize 18
+skinparam classAttributeFontSize 18
+
+skinparam titleFontColor #5cb85c
+
+Title Mediator Pattern Example
+
+interface IColleague {
+    + String getName()
+    + void send(String message)
+    + void receive(String message)
+}
+
+interface IMediator {
+    + void addColleague(IColleague colleague)
+    + void send(String message, IColleague originator)
+}
+
+class ChatUser implements IColleague{
+    - ChatRoom chatRoom
+    - String name
+    + ChatUser(ChatRoom chatRoom, String name)
+    + String getName()
+    + void send(String message)
+    + void receive(String message)
+}
+
+class ChatRoom implements IMediator{
+    - List<IColleague> colleagueList
+    + ChatRoom()
+    + void addColleague(IColleague colleague)
+    + void send(String message, IColleague originator)
+}
+
+ChatUser *-- ChatRoom
+ChatRoom "1" o-- "n" ChatUser
+
+note right of ChatRoom::addColleague
+    if(!colleagueList.contains(colleague)){
+        for (IColleague c : colleagueList)
+            c.receive(String.format(
+                "The user %s is now connected",
+                 colleague.getName()));
+        colleagueList.add(colleague);
+    }
+end note
+
+note right of ChatRoom::send
+    for (IColleague c : colleagueList)
+        if(!c.equals(originator))
+            c.receive(message);
+end note
+
+note right of ChatUser::send
+    chatRoom.send(message, this);
+end note
+
+@enduml

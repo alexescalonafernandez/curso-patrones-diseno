@@ -1,0 +1,99 @@
+@startuml
+
+skinparam backgroundcolor transparent
+skinparam classFontSize 18
+skinparam noteFontSize 18
+skinparam arrowFontSize 18
+skinparam classAttributeFontSize 18
+
+skinparam titleFontColor #5cb85c
+
+'Title Visitor Pattern Example
+
+interface IVisitor {
+    + void visit(Line line)
+    + void visit(Rectangle rectangle)
+    + void visit(Container container)
+}
+
+interface IComponent {
+    void accept(IVisitor v)
+}
+
+interface IComposite extends IComponent{
+    + boolean add(IComponent child)
+    + boolean remove(IComponent child)
+}
+
+'class Container implements IComposite{
+class Container{
+    - final List<IComponent> childs
+    - int x
+    - int y
+    + boolean add(IComponent child)
+    + boolean remove(IComponent child)
+    + void accept(IVisitor v)
+}
+
+Container --|> IComposite
+
+class Line implements IComponent{
+    - int x1
+    - int y1
+    - int x2
+    - int y2
+    + void accept(IVisitor v)
+}
+
+class Rectangle implements IComponent{
+    - int x1
+    - int y1
+    - int width
+    - int height
+    + void accept(IVisitor v)
+}
+
+'class DrawVisitor implements IVisitor{
+class DrawVisitor{
+    - final Graphics g
+    + DrawVisitor(Graphics g)
+    + void visit(Line line)
+    + void visit(Rectangle rectangle)
+    + void visit(Container container)
+}
+
+DrawVisitor ..|> IVisitor
+
+class Main
+
+Main -right-> DrawVisitor
+Main --> IComponent
+
+note bottom of Line
+    v.visit(this);
+end note
+
+note bottom of Rectangle
+    v.visit(this);
+end note
+
+note right of Container::accept
+    visitor.visit(this);
+    for(IComponent c : childs)
+        c.accept(visitor);
+end note
+
+note left of Main
+    final Container container = new Container(10, 10);
+    //code here for initializing container and JFrame
+    JPanel panel = new JPanel(){
+        @Override
+        public void paint(Graphics g) {
+            super.paint(g);
+            DrawVisitor visitor = new DrawVisitor(g);
+            container.accept(visitor);
+        }
+    };
+end note
+
+@enduml

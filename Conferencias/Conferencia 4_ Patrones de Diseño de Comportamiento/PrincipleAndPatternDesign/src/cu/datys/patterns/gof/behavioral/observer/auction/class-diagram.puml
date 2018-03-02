@@ -1,0 +1,75 @@
+@startuml
+
+skinparam backgroundcolor transparent
+skinparam classFontSize 18
+skinparam noteFontSize 18
+skinparam arrowFontSize 18
+skinparam classAttributeFontSize 18
+
+skinparam titleFontColor #5cb85c
+
+'Title Observer Pattern Example
+
+interface Subject {
+	+ void registerObserver(Observer o)
+	+ void removeObserver(Observer o)
+	+ void notifyObservers()
+}
+
+interface Observer {
+	+ void update(float price)
+}
+
+'class Auctioner implements Subject {
+class Auctioner {
+	- List<Observer> observers
+	- float bidPrice
+	+ Auctioner()
+	+ void registerObserver(Observer o)
+    + void removeObserver(Observer o)
+    + void notifyObservers()
+    - void bidPriceChanged()
+    + void setBidPrice(float bidPrice)
+    + float getBidPrice()
+}
+
+Auctioner .right.|> Subject
+
+interface DisplayElement {
+	+ void display(float proposedNewBid)
+}
+
+class Bidder implements Observer, DisplayElement {
+	- String name
+	- float cash
+	- float proposal
+	+ Bidder(String name, float cash)
+	+ void update(float price)
+	+ void display(float proposedNewBid)
+}
+
+Auctioner o-- Observer
+
+note left of Auctioner::notifyObservers
+    for (Observer observer: observers)
+        observer.update(bidPrice);
+end note
+
+note left of Auctioner::bidPriceChanged
+    notifyObservers()
+end note
+
+note left of Auctioner::setBidPrice
+    this.bidPrice = bidPrice;
+    bidPriceChanged();
+end note
+
+note left of Bidder::update
+    if (price > proposal && price < cash){
+        proposal = Math.min(price + 1000, cash);
+        display(proposal);
+    }
+end note
+
+
+@enduml

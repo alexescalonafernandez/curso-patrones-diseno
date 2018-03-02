@@ -1,0 +1,57 @@
+@startuml
+
+skinparam backgroundcolor transparent
+skinparam classFontSize 18
+skinparam noteFontSize 18
+skinparam arrowFontSize 18
+skinparam classAttributeFontSize 18
+
+skinparam titleFontColor #5cb85c
+
+Title Chain of Responsibility Pattern Example
+
+abstract class Bill{
+    - int count
+    - Bill successor
+    + Bill(int count)
+    + int count()
+    + void setSuccessor(Bill bill)
+    + boolean canDoOperation(int cash)
+    + {abstract} int getDenomination()
+}
+
+class Bill50 extends Bill
+class Bill20 extends Bill
+class Bill10 extends Bill
+class Bill5 extends Bill
+class Bill1 extends Bill
+
+Class ATM
+
+ATM --> Bill: configure
+
+note left of Bill::canDoOperation
+    if(count == 0)
+        return successor.canDoOperation(cash);
+    else{
+        int min = Math.min(
+        cash/getDenomination(), count);
+        cash -= min * getDenomination();
+        return cash == 0 ?
+            true : successor.canDoOperation(cash);
+    }
+end note
+
+note left of ATM
+    String p = ATM.class.getPackage().getName();
+    Bill successor = null, current = null;
+    for(int e : new int[]{1, 5, 10, 20, 50}){
+        Class bill = Class.forName(p + ".Bill" + e);
+        current = (Bill) bill.getConstructor(int.class)
+                                .newInstance(100);
+        current.setSuccessor(successor);
+        successor = current;
+    }
+end note
+
+@enduml

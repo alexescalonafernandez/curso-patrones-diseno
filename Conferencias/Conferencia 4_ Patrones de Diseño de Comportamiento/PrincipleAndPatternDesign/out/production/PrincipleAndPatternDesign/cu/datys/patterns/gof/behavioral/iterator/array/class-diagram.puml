@@ -1,0 +1,32 @@
+@startuml
+
+skinparam backgroundcolor transparent
+skinparam classFontSize 18
+skinparam noteFontSize 18
+skinparam arrowFontSize 18
+skinparam classAttributeFontSize 18
+skinparam classStereotypeFontSize 18
+
+
+skinparam titleFontColor #5cb85c
+
+Title Iterator Pattern Example
+
+interface Iterator<T>{
+    + boolean hasNext()
+    + T next()
+    + void remove()
+}
+
+class ArrayIterator<T> implements Iterator{
+    - T[] array
+    - int index
+    + ArrayIterator(T[] array)
+    + boolean hasNext()
+    + T next()
+    + void remove()
+}
+
+
+
+@enduml

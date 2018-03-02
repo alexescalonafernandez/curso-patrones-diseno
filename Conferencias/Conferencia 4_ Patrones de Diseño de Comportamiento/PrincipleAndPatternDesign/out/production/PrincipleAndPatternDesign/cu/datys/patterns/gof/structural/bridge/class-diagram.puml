@@ -1,0 +1,41 @@
+@startuml
+skinparam backgroundcolor transparent
+skinparam classFontSize 18
+skinparam noteFontSize 18
+skinparam arrowFontSize 18
+skinparam classAttributeFontSize 18
+
+skinparam titleFontColor #5cb85c
+
+Title Bridge Pattern
+
+class Abstraction{
+    - Implementor implementor
+    + void operation()
+}
+
+interface Implementor{
+    + void operationImpl()
+}
+
+class ConcreteImplementorA implements Implementor{
+    + void operationImpl()
+}
+
+class ConcreteImplementorB implements Implementor{
+    + void operationImpl()
+}
+
+class RefinedAbstraction extends Abstraction
+
+class Client
+
+Client --> Abstraction
+
+Abstraction o-- Implementor
+
+note left of Abstraction::operation
+    implementor.operationImpl()
+end note
+
+@enduml

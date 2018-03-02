@@ -1,0 +1,42 @@
+@startuml
+
+skinparam backgroundcolor transparent
+skinparam classFontSize 18
+skinparam noteFontSize 18
+skinparam arrowFontSize 18
+skinparam classAttributeFontSize 18
+
+skinparam titleFontColor #5cb85c
+
+Title Strategy Pattern Example
+
+interface IPrintStrategy {
+    + void print(String message)
+}
+
+class CapitalizeStrategy implements IPrintStrategy{
+    + void print(String message)
+}
+
+class LowerCaseStrategy implements IPrintStrategy{
+    + void print(String message)
+}
+
+class UpperCaseStrategy implements IPrintStrategy{
+    + void print(String message)
+}
+
+class PrintContext {
+    - IPrintStrategy strategy
+    + PrintContext(IPrintStrategy strategy)
+    + IPrintStrategy getStrategy()
+    + void setStrategy(IPrintStrategy strategy)
+    + void print(String message)
+}
+
+PrintContext *-- IPrintStrategy
+
+note right of PrintContext::print
+    strategy.print(message);
+end note
+@enduml

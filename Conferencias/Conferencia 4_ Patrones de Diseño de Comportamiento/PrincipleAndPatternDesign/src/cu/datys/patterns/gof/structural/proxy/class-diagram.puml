@@ -1,0 +1,30 @@
+@startuml
+skinparam backgroundcolor transparent
+skinparam classFontSize 18
+skinparam noteFontSize 18
+skinparam arrowFontSize 18
+skinparam classAttributeFontSize 18
+
+skinparam titleFontColor #5cb85c
+
+Title Proxy Pattern
+
+interface Subject{
+    + void doAction()
+}
+
+class RealSubject implements Subject{
+    + void doAction()
+}
+
+class Proxy implements Subject{
+    + void doAction()
+}
+
+Proxy --> RealSubject: delegate
+
+class Client
+
+Client --> Subject
+
+@enduml

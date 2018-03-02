@@ -1,0 +1,67 @@
+@startuml
+skinparam backgroundcolor transparent
+skinparam classFontSize 18
+skinparam noteFontSize 18
+skinparam arrowFontSize 18
+skinparam classAttributeFontSize 18
+skinparam packageFontSize 18
+
+skinparam titleFontColor #5cb85c
+
+Title Facade Pattern Example
+
+class ApplyDiscountRequest {
+	- long idCustomer
+	- long idProduct
+	- long idDiscount
+}
+
+class Customer {
+	- String name
+	- String address
+	- Date birthDate
+}
+
+class Product {
+	- long idProduct
+	- String name
+	- BigDecimal price
+}
+
+class ProductService {
+	+ Product find(long id)
+}
+
+class CustomerService {
+	+ Customer find(long id)
+}
+
+class DiscountFacade {
+	- CustomerService cs
+	- ProductService ps
+	- DiscountService dse
+	+ boolean applyDiscount(ApplyDiscountRequest adr)
+}
+
+class DiscountService {
+	+ boolean applyDiscount(Customer c, Product p)
+}
+
+ProductService --> Product: find
+CustomerService --> Customer: find
+
+DiscountService --> Product: use
+DiscountService --> Customer: use
+
+DiscountFacade --> ProductService: use
+DiscountFacade --> CustomerService: use
+DiscountFacade --> DiscountService: use
+DiscountFacade --> ApplyDiscountRequest: use
+
+
+note right of DiscountFacade::applyDiscount
+    Customer c = cs.find(adr.getIdCustomer());
+    Product p = ps.find(adr.getIdProduct());
+    return ds.applyDiscount(c, p);
+end note
+@enduml

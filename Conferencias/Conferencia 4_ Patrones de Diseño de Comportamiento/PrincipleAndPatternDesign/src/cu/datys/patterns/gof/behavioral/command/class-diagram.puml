@@ -1,0 +1,43 @@
+@startuml
+
+skinparam backgroundcolor transparent
+skinparam classFontSize 18
+skinparam noteFontSize 18
+skinparam arrowFontSize 18
+skinparam classAttributeFontSize 18
+
+skinparam titleFontColor #5cb85c
+
+Title Command Pattern
+
+class Invoker
+
+interface Command{
+    + void execute()
+}
+
+class ConcreteCommand implements Command{
+    - Receiver receiver
+    + void execute()
+}
+
+Invoker o-- Command
+
+class Receiver{
+    + void action
+}
+
+ConcreteCommand --> Receiver: receive
+
+note right of ConcreteCommand::execute
+    public void execute(){
+        receiver.action()
+    }
+end note
+
+class Client
+
+Client --> Receiver
+Client ..> ConcreteCommand: create
+
+@enduml

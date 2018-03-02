@@ -1,0 +1,33 @@
+@startuml
+
+skinparam backgroundcolor transparent
+skinparam classFontSize 18
+skinparam noteFontSize 18
+skinparam arrowFontSize 18
+skinparam classAttributeFontSize 18
+skinparam classStereotypeFontSize 18
+
+skinparam titleFontColor #5cb85c
+
+Title Singleton Pattern Example
+
+class Singleton{
+    + Date creationDate;
+    + Singleton(Date creationDate)
+    + Date getCreationDate()
+    + {static} Singleton getInstance()
+}
+
+class SingletonHolder<<private final static>>{
+    - final {static} Singleton INSTANCE = new Singleton(new Date());
+}
+
+Singleton +-- SingletonHolder
+
+note right of Singleton::getInstance
+    public static Singleton getInstance(){
+        return SingletonHolder.INSTANCE;
+    }
+end note
+
+@enduml

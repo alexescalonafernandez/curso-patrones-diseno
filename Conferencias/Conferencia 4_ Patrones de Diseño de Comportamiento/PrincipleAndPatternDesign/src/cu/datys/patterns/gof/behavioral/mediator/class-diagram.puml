@@ -1,0 +1,25 @@
+@startuml
+
+skinparam backgroundcolor transparent
+skinparam classFontSize 18
+skinparam noteFontSize 18
+skinparam arrowFontSize 18
+skinparam classAttributeFontSize 18
+
+skinparam titleFontColor #5cb85c
+
+Title Mediator Pattern
+
+abstract class Mediator
+
+class ConcreteMediator implements Mediator
+
+abstract class Colleague
+
+class ConcreteColleague implements Colleague
+
+Mediator "1" o-- "many" Colleague
+
+Colleague "1" o-- "1" Mediator
+
+@enduml

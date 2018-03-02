@@ -1,0 +1,55 @@
+@startuml
+
+skinparam backgroundcolor transparent
+skinparam classFontSize 18
+skinparam noteFontSize 18
+skinparam arrowFontSize 18
+skinparam classAttributeFontSize 18
+
+skinparam titleFontColor #5cb85c
+
+Title Memento Pattern Example
+
+class Customer{
+    - String name
+    - String address
+    - String phone
+    + Customer(String name, String address, String phone)
+    + CustomerMemento save()
+    + void revert(CustomerMemento customer)
+}
+
+class CustomerMemento {
+	private String name;
+	private String phone;
+	CustomerMemento(String name, String phone)
+}
+
+class Caretaker {
+	- Stack<CustomerMemento> customerHistory
+	+ void save(Customer customer)
+	+ void revert(Customer customer)
+}
+
+Customer --> CustomerMemento: use
+Caretaker --> Customer: use
+Caretaker --> CustomerMemento: manage
+
+note right of Caretaker::save
+    customerHistory.push(customer.save());
+end note
+
+note right of Caretaker::revert
+    customer.revert(customerHistory.pop());
+end note
+
+note right of Customer::save
+    return new CustomerMemento(name, phone);
+end note
+
+note right of Customer::revert
+    this.name = customer.getName();
+    this.phone = customer.getPhone();
+end note
+
+@enduml

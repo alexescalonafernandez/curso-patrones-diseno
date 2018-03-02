@@ -1,0 +1,70 @@
+@startuml
+
+skinparam backgroundcolor transparent
+skinparam classFontSize 18
+skinparam noteFontSize 18
+skinparam arrowFontSize 18
+skinparam classAttributeFontSize 18
+
+skinparam titleFontColor #5cb85c
+
+Title Bridge Pattern Example
+
+interface Control {
+    + void on()
+    + void off()
+    + void channel(int channel)
+    + int getCurrentChannel()
+}
+
+interface TV extends Control{
+    int getMinChannel();
+    int getMaxChannel();
+}
+
+abstract class RemoteControl implements Control{
+   # TV implementor
+   + RemoteControl(TV implementor)
+   + void on()
+   + void off()
+   + void channel(int channel)
+   + int getCurrentChannel()
+   + void upChannel()
+   + void downChannel()
+}
+
+RemoteControl *-- TV
+
+note right of RemoteControl::on(
+    implementor.on();
+end note
+
+note right of RemoteControl::off(
+    implementor.off();
+end note
+
+note right of RemoteControl::channel(
+    implementor.channel(channel);
+end note
+
+note right of RemoteControl::getCurrentChannel(
+    return implementor.getCurrentChannel();
+end note
+
+class SonyTV implements TV
+
+class ConcreteRemoteControl extends RemoteControl
+
+class Main
+
+Main --> SonyTV: use
+Main --> ConcreteRemoteControl: use
+
+note top of Main
+    SonyTV tv = new SonyTV();
+    ConcreteRemoteControl control =
+        new ConcreteRemoteControl(tv);
+end note
+
+
+@enduml

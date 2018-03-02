@@ -1,0 +1,33 @@
+@startuml
+
+skinparam backgroundcolor transparent
+skinparam classFontSize 18
+skinparam noteFontSize 18
+skinparam arrowFontSize 18
+skinparam classAttributeFontSize 18
+
+skinparam titleFontColor #5cb85c
+
+Title Chain of Responsibility Pattern
+
+abstract class Handler{
+    - Handler successor
+    + {abstract} void handleRequest(Request request)
+    # void setSuccessor(Handler handler)
+}
+
+Handler o-- Handler: succesor
+
+class ConrecteHandler1 extends Handler{
+    + void handleRequest(Request request)
+}
+
+class ConrecteHandler2 extends Handler{
+    + void handleRequest(Request request)
+}
+
+class Client
+
+Client --> Handler
+
+@enduml

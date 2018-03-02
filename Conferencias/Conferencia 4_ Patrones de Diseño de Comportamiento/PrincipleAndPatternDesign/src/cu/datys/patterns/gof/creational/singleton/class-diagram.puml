@@ -1,0 +1,19 @@
+@startuml
+
+skinparam backgroundcolor transparent
+skinparam classFontSize 18
+skinparam noteFontSize 18
+skinparam arrowFontSize 18
+skinparam classAttributeFontSize 18
+
+skinparam titleFontColor #5cb85c
+
+Title Singleton Pattern
+
+class Singleton{
+    - {static} Singleton instance
+    - Singleton()
+    + {static} Singleton getInstance()
+}
+
+@enduml

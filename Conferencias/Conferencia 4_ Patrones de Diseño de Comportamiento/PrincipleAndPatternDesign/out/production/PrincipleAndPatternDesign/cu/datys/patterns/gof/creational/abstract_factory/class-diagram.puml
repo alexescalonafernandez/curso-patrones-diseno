@@ -1,0 +1,48 @@
+@startuml
+skinparam backgroundcolor transparent
+skinparam classFontSize 18
+skinparam noteFontSize 18
+skinparam arrowFontSize 18
+skinparam classAttributeFontSize 18
+
+skinparam titleFontColor #5cb85c
+
+Title Abstract Factory Pattern
+
+interface ProductA
+interface ProductB
+
+class ProductA1 implements ProductA
+class ProductB1 implements ProductB
+
+class ProductA2 implements ProductA
+class ProductB2 implements ProductB
+
+abstract class AbstractFactory{
+    + {abstract} ProductA createProductA()
+    + {abstract} ProductB createProductB()
+}
+
+class ConcreteFactory1 extends AbstractFactory{
+    + ProductA createProductA()
+    + ProductB createProductB()
+}
+
+class ConcreteFactory2 extends AbstractFactory{
+    + ProductA createProductA()
+    + ProductB createProductB()
+}
+
+ConcreteFactory1 --> ProductA1: create
+ConcreteFactory1 --> ProductB1: create
+
+ConcreteFactory2 --> ProductA2: create
+ConcreteFactory2 --> ProductB2: create
+
+class Client
+
+Client --> AbstractFactory: use
+Client --> ProductA: use
+Client --> ProductB: use
+
+@enduml

@@ -1,0 +1,39 @@
+@startuml
+skinparam backgroundcolor transparent
+skinparam classFontSize 18
+skinparam noteFontSize 18
+skinparam arrowFontSize 18
+skinparam classAttributeFontSize 18
+skinparam packageFontSize 18
+
+skinparam titleFontColor #5cb85c
+
+Title Facade Pattern
+
+class Facade{
+    + void doSomething()
+}
+
+class Client
+
+Client --> Facade
+
+namespace package{
+    class Class1
+    class Class2
+    class Class3
+}
+
+Facade --> package.Class1
+Facade --> package.Class2
+Facade --> package.Class3
+
+note right of Facade::doSomething
+    public void doSomething(){
+        Class1 c1 = new Class1();
+        Class2 c2 = new Class2();
+        Class3 c3 = new Class3();
+        //do actions with these objects
+    }
+end note
+@enduml

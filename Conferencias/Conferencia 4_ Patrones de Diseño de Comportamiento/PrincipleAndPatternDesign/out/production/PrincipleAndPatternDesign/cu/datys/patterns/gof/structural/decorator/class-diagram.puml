@@ -1,0 +1,31 @@
+@startuml
+skinparam backgroundcolor transparent
+skinparam classFontSize 18
+skinparam noteFontSize 18
+skinparam arrowFontSize 18
+skinparam classAttributeFontSize 18
+
+skinparam titleFontColor #5cb85c
+
+Title Decorator Pattern
+
+interface Component{
+    + void doAction()
+}
+
+class ConcreteComponent1 implements Component{
+    + void doAction()
+}
+
+abstract class Decorator implements Component{
+    # Component toDecorate
+    + Decorator(Component toDecorate)
+}
+
+Decorator *-- Component
+
+class ConcreteDecorator1 extends Decorator{
+    + void doAction()
+}
+
+@enduml

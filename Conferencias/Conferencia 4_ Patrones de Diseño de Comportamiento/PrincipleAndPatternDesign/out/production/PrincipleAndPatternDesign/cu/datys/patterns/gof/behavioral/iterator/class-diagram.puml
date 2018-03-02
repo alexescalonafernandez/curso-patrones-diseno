@@ -1,0 +1,38 @@
+@startuml
+
+skinparam backgroundcolor transparent
+skinparam classFontSize 18
+skinparam noteFontSize 18
+skinparam arrowFontSize 18
+skinparam classAttributeFontSize 18
+
+skinparam titleFontColor #5cb85c
+
+Title Iterator Pattern
+
+interface Iterator{
+    + boolean hasNext()
+    + Object next()
+}
+
+class ConcreteIterator implements Iterator{
+    + boolean hasNext()
+    + Object next()
+}
+
+interface Aggregator{
+    + Iterator createIterator()
+}
+
+class ConcreteAggregator implements Aggregator{
+    + Iterator createIterator()
+}
+
+ConcreteAggregator --> ConcreteIterator: create
+
+class Client
+
+Client --> Iterator
+Client --> Aggregator
+
+@enduml

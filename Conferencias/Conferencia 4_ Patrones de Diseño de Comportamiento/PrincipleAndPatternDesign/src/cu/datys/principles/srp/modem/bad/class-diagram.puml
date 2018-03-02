@@ -1,0 +1,35 @@
+@startuml
+skinparam backgroundcolor transparent
+skinparam classFontSize 18
+skinparam noteFontSize 18
+skinparam arrowFontSize 18
+skinparam classAttributeFontSize 18
+
+skinparam titleFontColor #c9302c
+
+Title SRP: Uso incorrecto
+
+interface IModem {
+    + void dial(String phoneNumber)
+    + void disconnect()
+    + void send(char c)
+    + char receive()
+}
+
+class ModemFast implements IModem
+
+class ModemSlow implements IModem
+
+class ModemFastClient
+class ModemSlowClient
+
+
+ModemFastClient --> ModemFast : use
+ModemSlowClient --> ModemSlow : use
+
+note top of IModem
+    Responsabilidad del manejo de la conexión: métodos dial y disconnect
+    Responsabilidad del manejo de los datos: métodos send y receive
+end note
+
+@enduml

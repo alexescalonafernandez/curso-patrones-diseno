@@ -1,0 +1,29 @@
+@startuml
+
+skinparam backgroundcolor transparent
+skinparam classFontSize 18
+skinparam noteFontSize 18
+skinparam arrowFontSize 18
+skinparam classAttributeFontSize 18
+
+skinparam titleFontColor #5cb85c
+
+Title Prototype Pattern
+
+class Prototype{
+    + Object clone()
+}
+
+class ConcretePrototype1 extends Prototype{
+    + Object clone()
+}
+
+class ConcretePrototype2 extends Prototype{
+    + Object clone()
+}
+
+class Client
+
+Client --> Prototype: use
+
+@enduml

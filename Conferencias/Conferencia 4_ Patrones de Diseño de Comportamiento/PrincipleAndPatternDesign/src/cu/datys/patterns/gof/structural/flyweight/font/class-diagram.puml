@@ -1,0 +1,39 @@
+@startuml
+
+skinparam backgroundcolor transparent
+skinparam classFontSize 18
+skinparam noteFontSize 18
+skinparam arrowFontSize 18
+skinparam classAttributeFontSize 18
+
+skinparam titleFontColor #5cb85c
+
+Title Flyweight Pattern Example
+
+class FontAwesomeIcon {
+    - final String code
+    - final byte[] data
+}
+
+class FontAwesomeIconRegistry{
+    - final HashMap<String, FontAwesomeIcon> icons
+    + FontAwesomeIcon lookup(String code)
+    - byte[] loadIcon(String code)
+}
+
+FontAwesomeIconRegistry "1" o-- "many" FontAwesomeIcon
+
+note right of FontAwesomeIconRegistry::lookup
+    FontAwesomeIcon icon = icons.get(code);
+    if(icon == null){
+        byte[] data = loadIcon(code);
+        icon = new FontAwesomeIcon(code, data);
+        icons.put(code, icon)
+    }
+    return icon;
+end note
+
+class Main
+
+Main --> FontAwesomeIconRegistry:lookup icon
+@enduml

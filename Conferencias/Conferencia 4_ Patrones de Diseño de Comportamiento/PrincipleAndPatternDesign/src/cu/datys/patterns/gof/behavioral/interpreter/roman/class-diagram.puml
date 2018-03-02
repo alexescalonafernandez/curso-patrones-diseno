@@ -1,0 +1,85 @@
+@startuml
+
+skinparam backgroundcolor transparent
+skinparam classFontSize 18
+skinparam noteFontSize 18
+skinparam arrowFontSize 18
+skinparam classAttributeFontSize 18
+
+skinparam titleFontColor #5cb85c
+
+Title Interpreter Pattern Example
+
+abstract class Expression{
+    + void interpret(Context context)
+    - boolean invoke(String method)
+    + {abstract} String one()
+    + {abstract} String four()
+    + {abstract} String five()
+    + {abstract} String nine()
+    + {abstract} int multiplier()
+}
+
+class Context{
+    - String roman
+    - int value
+    + String getRoman()
+    + void setRoman(String roman)
+    + int getValue()
+    + void setValue(int value)
+}
+
+Expression o-- Context
+
+class Thousand extends Expression
+class Hundred extends Expression
+class Ten extends Expression
+class One extends Expression
+
+class Interpreter{
+    - Context context
+    - List<Expression> evaluator
+    + Interpreter()
+    + int roman2decimal(String roman)
+}
+
+Interpreter --> Context: create
+
+note bottom of Interpreter
+    context = new Context();
+    evaluator =
+        new ArrayList<Expression>();
+    evaluator.add(new Thousand());
+    evaluator.add(new Hundred());
+    evaluator.add(new Ten());
+    evaluator.add(new One());
+end note
+
+note top of Interpreter
+    context.setRoman(roman);
+    context.setValue(0);
+    for(Expression e : evaluator)
+        e.interpret(context);
+    return context.getValue();
+end note
+
+
+note right of Expression
+    if(context.getRoman().length() == 0)
+        return;
+    String[] keys = new String[]{"nine", "four", "five"};
+    int[] values = new int[]{9, 4, 5};
+    boolean flag = false;
+    for(int i = 0, length = keys.length; i < length && !flag; i++){
+        flag = invoke(keys[i]);
+    }
+    while (context.getRoman().startsWith(one())){
+        context.setValue(context.getValue() + multiplier());
+        context.setRoman(context.getRoman().substring(1));
+    }
+end note
+
+note bottom of Expression
+
+end note
+@enduml

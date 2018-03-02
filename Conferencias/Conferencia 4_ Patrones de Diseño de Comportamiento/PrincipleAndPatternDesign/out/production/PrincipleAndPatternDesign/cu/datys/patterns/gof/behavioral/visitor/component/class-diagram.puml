@@ -1,0 +1,109 @@
+@startuml
+
+skinparam backgroundcolor transparent
+skinparam classFontSize 18
+skinparam noteFontSize 18
+skinparam arrowFontSize 18
+skinparam classAttributeFontSize 18
+
+skinparam titleFontColor #5cb85c
+
+Title Visitor Pattern Example
+
+interface IVisitor {
+    + void visit(Line line)
+    + void visit(Rectangle rectangle)
+    + void visit(Container container)
+}
+
+interface IComponent {
+    void accept(IVisitor v)
+}
+
+interface IComposite extends IComponent{
+    + boolean add(IComponent child)
+    + boolean remove(IComponent child)
+}
+
+class Container implements IComposite{
+    - final List<IComponent> childs
+    - int x
+    - int y
+    + boolean add(IComponent child)
+    + boolean remove(IComponent child)
+    + void accept(IVisitor v)
+}
+
+class Line implements IComponent{
+    - int x1
+    - int y1
+    - int x2
+    - int y2
+    + void accept(IVisitor v)
+}
+
+class Rectangle implements IComponent{
+    - int x1
+    - int y1
+    - int width
+    - int height
+    + void accept(IVisitor v)
+}
+
+class DrawVisitor implements IVisitor{
+    - final Graphics g
+    + DrawVisitor(Graphics g)
+    + void visit(Line line)
+    + void visit(Rectangle rectangle)
+    + void visit(Container container)
+}
+
+class Main
+
+Main --> DrawVisitor
+Main --> IComponent
+
+note right of DrawVisitor::visit(L
+    g.drawLine
+end note
+
+note right of DrawVisitor::visit(R
+    g.drawRect
+end note
+
+note right of DrawVisitor::visit(C
+    g.translate
+end note
+
+note left of Line::accept
+    v.visit(this);
+end note
+
+note left of Rectangle::accept
+    v.visit(this);
+end note
+
+note right of Container::accept
+    visitor.visit(this);
+    for(IComponent c : childs)
+        c.accept(visitor);
+end note
+
+note left of Main
+    final Container container = new Container(10, 10);
+    Line line = new Line(0, 0, 50, 50);
+    Rectangle r = new Rectangle(20, 20, 30, 30);
+    container.add(line);
+    container.add(r);
+    //some code here for initializing JFrame
+    JPanel panel = new JPanel(){
+        @Override
+        public void paint(Graphics g) {
+            super.paint(g);
+            DrawVisitor visitor = new DrawVisitor(g);
+            container.accept(visitor);
+        }
+    };
+end note
+
+@enduml

@@ -1,0 +1,31 @@
+@startuml
+skinparam backgroundcolor transparent
+skinparam classFontSize 18
+skinparam noteFontSize 18
+skinparam arrowFontSize 18
+skinparam classAttributeFontSize 18
+
+skinparam titleFontColor #5cb85c
+
+Title Composite Pattern
+
+interface Component{
+    + void doAction()
+}
+
+class Leaf implements Component{
+    + void doAction()
+}
+
+class Composite implements Component{
+    + void doAction()
+    + void addComponent(Component component)
+    + void removeComponent(Component component)
+    + Component getChild(int index)
+}
+
+class Client
+
+Client --> Component
+
+@enduml

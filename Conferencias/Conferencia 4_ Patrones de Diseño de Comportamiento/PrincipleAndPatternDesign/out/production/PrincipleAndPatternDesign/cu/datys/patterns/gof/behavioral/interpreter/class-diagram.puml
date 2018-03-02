@@ -1,0 +1,36 @@
+@startuml
+
+skinparam backgroundcolor transparent
+skinparam classFontSize 18
+skinparam noteFontSize 18
+skinparam arrowFontSize 18
+skinparam classAttributeFontSize 18
+
+skinparam titleFontColor #5cb85c
+
+Title Interpreter Pattern
+
+class Context
+
+abstract class AbstractExpression{
+    + interpret(Context context)
+}
+
+AbstractExpression --> Context: use
+
+class TerminalExpression extends AbstractExpression{
+    + interpret(Context context)
+}
+
+class NonTerminalExpression extends AbstractExpression{
+    + interpret(Context context)
+}
+
+NonTerminalExpression o-- AbstractExpression
+
+class Client
+
+Client --> Context: create
+Client --> AbstractExpression
+
+@enduml

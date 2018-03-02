@@ -1,0 +1,75 @@
+@startuml
+
+skinparam backgroundcolor transparent
+skinparam classFontSize 18
+skinparam noteFontSize 18
+skinparam arrowFontSize 18
+skinparam classAttributeFontSize 18
+
+skinparam titleFontColor #5cb85c
+
+Title State Pattern Example
+
+abstract class State {
+	+ {abstract} void handleRequest()
+}
+
+class TrafficLight {
+	- final State red
+	- final State yellow
+	- final State green
+	- State state
+    + TrafficLight()
+    + void changeState()
+    + State getGreenLightState()
+    + State getYellowLightState()
+    + State getRedLightState()
+    + void setState(State state)
+}
+
+
+class GreenTrafficLightState extends State{
+    - TrafficLight trafficLight
+    + GreenTrafficLightState(TrafficLight trafficLight)
+    + void handleRequest()
+}
+
+class RedTrafficLightState extends State{
+    - TrafficLight trafficLight
+    + RedTrafficLightState(TrafficLight trafficLight)
+    + void handleRequest()
+}
+
+class YellowTrafficLightState extends State{
+    - TrafficLight trafficLight
+    + YellowTrafficLightState(TrafficLight trafficLight)
+    + void handleRequest()
+}
+
+TrafficLight --> State: has
+
+note right of TrafficLight::TrafficLight
+    red = new RedTrafficLightState(this);
+    yellow = new YellowTrafficLightState(this);
+    green = new GreenTrafficLightState(this);
+    state = red;
+end note
+
+note right of TrafficLight::changeState
+    state.handleRequest();
+end note
+
+note top of RedTrafficLightState
+    change to green
+end note
+
+note top of GreenTrafficLightState
+    public void handleRequest() {
+        State next = trafficLight.getYellowLightState();
+        trafficLight.setState(next);
+    }
+end note
+
+
+
+@enduml

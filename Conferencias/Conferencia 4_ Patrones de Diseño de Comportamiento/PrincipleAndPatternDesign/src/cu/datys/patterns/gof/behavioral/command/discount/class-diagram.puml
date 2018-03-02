@@ -1,0 +1,51 @@
+@startuml
+
+skinparam backgroundcolor transparent
+skinparam classFontSize 18
+skinparam noteFontSize 18
+skinparam arrowFontSize 18
+skinparam classAttributeFontSize 18
+
+skinparam titleFontColor #5cb85c
+
+Title Command Pattern Example
+
+interface Command {
+	+ void execute()
+}
+
+class Discount{
+    - boolean eligible
+    - boolean discountApplied
+    + Discount(boolean eligible)
+    + void applyDiscount()
+    + boolean isDiscountApplied()
+    + boolean isEligible()
+    + void setEligible(boolean eligible)
+}
+
+class CommandInvoker{
+    - Command command
+    + CommandInvoker(Command command)
+    + void execute()
+}
+
+CommandInvoker *-- Command
+
+class ApplyDiscountCommand implements Command{
+    - Discount discount
+    + ApplyDiscountCommand(Discount discount)
+    + void execute()
+}
+
+ApplyDiscountCommand *-up- Discount
+
+note left of CommandInvoker::execute
+    command.execute();
+end note
+
+note left of ApplyDiscountCommand::execute
+    discount.applyDiscount();
+end note
+
+@enduml
