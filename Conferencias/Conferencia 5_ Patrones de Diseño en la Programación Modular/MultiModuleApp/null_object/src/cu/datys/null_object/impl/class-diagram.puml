@@ -1,0 +1,69 @@
+@startuml
+
+skinparam backgroundcolor transparent
+skinparam classFontSize 18
+skinparam noteFontSize 18
+skinparam arrowFontSize 18
+skinparam classAttributeFontSize 18
+skinparam packageFontSize 18
+skinparam classStereotypeFontSize 18
+
+skinparam titleFontColor #5cb85c
+'skinparam titleFontColor #FFFFFF
+
+skinparam titleFontSize 32
+
+Title Module null_object: cu.datys.null_object.impl package
+
+namespace cu.datys.null_object.impl{
+    class NullObjectLookup #FEFF99{
+        + {static} NullObject lookup(Class nullable)
+    }
+
+    class NullObjectFactoryLookup {
+        + {static} NullObjectFactory lookup(Class nullable)
+    }
+
+    class NullObjectFactoryProviderLookup {
+        + {static} NullObjectFactoryProvider lookup()
+    }
+
+    NullObjectLookup -> NullObjectFactoryLookup: use
+    NullObjectFactoryLookup -> NullObjectFactoryProviderLookup: use
+
+    NullObjectFactoryProviderLookup --> cu.datys.null_object.spi.NullObjectFactoryProvider: use
+    NullObjectFactoryLookup --> cu.datys.null_object.spi.NullObjectFactoryProvider: use
+    NullObjectLookup --> cu.datys.null_object.spi.NullObjectFactory: use
+
+    NullObjectLookup --> cu.datys.null_object.api.NullObjectProxyFactory: use
+    NullObjectFactoryProviderLookup --> cu.datys.service_locator.ServiceProviderLookup: use
+
+    cu.datys.service_locator.ServiceProviderLookup --> cu.datys.null_object.spi.NullObjectFactoryProvider: lookup
+}
+
+namespace cu.datys.null_object.spi{
+    interface NullObject {
+        + default boolean isNull()
+    }
+
+    interface NullObjectFactory {
+        + boolean accept(Class nullable)
+        + NullObject create()
+    }
+
+    interface NullObjectFactoryProvider {
+        + NullObjectFactory getFactory(Class nullable)
+    }
+
+    NullObjectFactoryProvider -> NullObjectFactory: provides
+    NullObjectFactory -> NullObject: create
+}
+
+namespace cu.datys.null_object.api {
+    class NullObjectProxyFactory{
+        + {static} Object create(Class<?> interfaceClass)
+        + {static} Object create(Class<?>[] interfaceClasses)
+    }
+}
+
+@enduml

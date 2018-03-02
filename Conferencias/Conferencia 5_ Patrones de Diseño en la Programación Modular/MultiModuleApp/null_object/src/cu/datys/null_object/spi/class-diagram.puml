@@ -1,0 +1,38 @@
+@startuml
+
+skinparam backgroundcolor transparent
+skinparam classFontSize 18
+skinparam noteFontSize 18
+skinparam arrowFontSize 18
+skinparam classAttributeFontSize 18
+skinparam packageFontSize 18
+skinparam classStereotypeFontSize 18
+
+skinparam titleFontColor #5cb85c
+'skinparam titleFontColor #FFFFFF
+
+'skinparam titleFontSize 32
+
+Title Module null_object: cu.datys.null_object.spi package
+
+interface NullObject {
+    + default boolean isNull()
+}
+
+interface NullObjectFactory {
+    + boolean accept(Class nullable)
+    + NullObject create()
+}
+
+interface NullObjectFactoryProvider #FEFF99 {
+    + NullObjectFactory getFactory(Class nullable)
+}
+
+NullObjectFactoryProvider --> NullObjectFactory: provides
+NullObjectFactory --> NullObject: create
+
+note right of NullObject::is
+    return false;
+end note
+
+@enduml

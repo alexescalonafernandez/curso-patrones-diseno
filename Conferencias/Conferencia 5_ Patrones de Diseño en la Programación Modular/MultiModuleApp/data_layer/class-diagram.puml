@@ -1,0 +1,67 @@
+@startuml
+
+skinparam backgroundcolor transparent
+skinparam classFontSize 18
+skinparam noteFontSize 18
+skinparam arrowFontSize 18
+skinparam classAttributeFontSize 18
+skinparam packageFontSize 18
+skinparam classStereotypeFontSize 18
+
+skinparam titleFontColor #5cb85c
+
+'Title Module data_layer
+
+namespace cu.datys.data_layer.spi{
+    interface IDataLayer<T> {
+        + Class<T> getEntityClass()
+        + void create(T entity)
+        + void edit(T entity)
+        + void remove(T entity)
+        + T find(Object id)
+        + List<T> findAll()
+        + List<T> findRange(int[] range)
+        + List<T> findBy(String field, Object value)
+        + List<T> like(String field, String value)
+        + int count()
+    }
+
+    interface IDataLayerFactory {
+        boolean accept(String mimeType)
+        <T> IDataLayer<T> create(Class<T> entityClass)
+    }
+    
+    interface IDataLayerFactoryProvider {
+        IDataLayerFactory getFactory(String mimeType)
+    }
+      
+    IDataLayerFactoryProvider --> IDataLayerFactory: provide
+    IDataLayerFactory --> IDataLayer: create
+}
+
+namespace cu.datys.data_layer.impl{
+    class DataLayerLookup #FEFF99 {
+        + {static} <T> IDataLayer<T> lookup(String mimeType, Class<T> entityClass)
+    }
+
+    class DataLayerFactoryLookup {
+        + {static} IDataLayerFactory lookup(String mimeType)
+    }
+
+    class DataLayerFactoryProviderLookup {
+        + {static} IDataLayerFactoryProvider lookup()
+    }
+
+
+
+    DataLayerLookup -up-> DataLayerFactoryLookup: use
+
+    DataLayerFactoryLookup -left-> DataLayerFactoryProviderLookup: use
+    DataLayerFactoryProviderLookup -up-> cu.datys.service_locator.ServiceProviderLookup: use
+
+    cu.datys.service_locator.ServiceProviderLookup -left-> cu.datys.data_layer.spi.IDataLayerFactoryProvider: lookup
+
+    DataLayerLookup -left-> cu.datys.data_layer.spi.IDataLayer: create
+}
+
+@enduml

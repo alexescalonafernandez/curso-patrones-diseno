@@ -1,0 +1,62 @@
+@startuml
+
+skinparam backgroundcolor transparent
+skinparam classFontSize 18
+skinparam noteFontSize 18
+skinparam arrowFontSize 18
+skinparam classAttributeFontSize 18
+skinparam classStereotypeFontSize 18
+skinparam packageFontSize 18
+
+skinparam titleFontColor #5cb85c
+
+'Title SPI in Java
+
+namespace java.util{
+    class ServiceLoader<S>{
+        + {static} ServiceLoader load(Class service)
+        + {static} ServiceLoader load(Class service, ClassLoader loader)
+    }
+
+    note right of ServiceLoader::l
+        search in classpath inside of all
+        jars META-INF/services folder
+    end note
+}
+
+namespace com.acme.spi{
+    interface IService
+}
+
+namespace com.acme.impl{
+'    class ServiceImpl implements com.acme.spi.IService
+    class ServiceImpl
+    ServiceImpl .right.|> com.acme.spi.IService
+}
+
+note left of com.acme.impl
+    create file com.acme.spi.IService
+    in resources/META-INF/services.
+    Write in file the next line:
+    com.acme.impl.ServiceImpl
+end note
+
+namespace com.acme.app{
+    class Client #FEFF99
+
+    Client -->  com.acme.spi.IService: use
+    Client --> java.util.ServiceLoader: use
+    java.util.ServiceLoader --> com.acme.spi.IService: lookup
+    java.util.ServiceLoader --> com.acme.impl.ServiceImpl: find
+
+    note left of Client
+        IService implementation = null;
+        ServiceLoader<IService> loader = ServiceLoader.load(IService.class);
+        Iterator<IService> iterator = loader.iterator();
+        if(iterator.hasNext())
+            implementation = iterator.next();
+        //How manage multiple instances and decide which one to use?
+    end note
+}
+
+@enduml

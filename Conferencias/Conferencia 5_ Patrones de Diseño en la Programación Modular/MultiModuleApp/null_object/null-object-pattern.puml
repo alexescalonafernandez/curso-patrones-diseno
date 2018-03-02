@@ -1,0 +1,30 @@
+@startuml
+
+skinparam backgroundcolor transparent
+skinparam classFontSize 18
+skinparam noteFontSize 18
+skinparam arrowFontSize 18
+skinparam classAttributeFontSize 18
+skinparam packageFontSize 18
+
+skinparam titleFontColor #5cb85c
+
+Title Pattern: Null Object
+
+abstract class AbstractObject{
+    + void request()
+}
+
+class RealObject extends AbstractObject{
+    + void request()
+}
+
+class NullObject extends AbstractObject{
+    + void request()
+}
+
+note right of NullObject::r
+    Do nothing
+end note
+
+@enduml

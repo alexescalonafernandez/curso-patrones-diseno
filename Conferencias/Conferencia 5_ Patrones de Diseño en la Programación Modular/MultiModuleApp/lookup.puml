@@ -1,0 +1,89 @@
+@startuml
+
+skinparam backgroundcolor transparent
+skinparam classFontSize 18
+skinparam noteFontSize 18
+skinparam arrowFontSize 18
+skinparam classAttributeFontSize 18
+skinparam classStereotypeFontSize 18
+skinparam packageFontSize 18
+
+skinparam titleFontColor #5cb85c
+
+'Title Lookup in Java
+
+interface Element
+
+interface ElementFactory{
+    + boolean accept(Object mimeType)
+    + Element create()
+}
+
+interface ElementFactoryProvider{
+    + ElementFactory getFactory(Object mimeType)
+}
+
+ElementFactoryProvider -up-> ElementFactory: provides
+ElementFactory --> Element: create
+
+class DefaultElementFactoryProvider implements ElementFactoryProvider{
+    + ElementFactory getFactory(Object mimeType)
+}
+
+class DefaultElementFactory implements ElementFactory{
+     + boolean accept(Object mimeType)
+     + Element create()
+}
+
+'class DefaultElement implements Element
+
+class DefaultElement
+DefaultElement .right.|> Element
+
+
+class ElementFactoryProviderLookup{
+    + {static} ElementFactoryProvider lookup(Object mimeType)
+}
+
+class ElementFactoryLookup{
+    + {static} ElementFactory lookup(Object mimeType)
+}
+
+class ElementLookup #FEFF99{
+    + {static} Element lookup(Object mimeType)
+}
+
+namespace java.util{
+    class ServiceLoader<S>{
+        + {static} ServiceLoader load(Class service)
+        + {static} ServiceLoader load(Class service, ClassLoader loader)
+    }
+}
+
+ElementLookup -left-> ElementFactoryLookup: use
+
+ElementFactoryLookup --> ElementFactoryProviderLookup: use
+
+ElementFactoryProviderLookup --> DefaultElementFactoryProvider: use
+ElementFactoryProviderLookup --> java.util.ServiceLoader: use
+
+DefaultElementFactoryProvider --> DefaultElementFactory: use
+DefaultElementFactoryProvider --> java.util.ServiceLoader: use
+
+DefaultElementFactory -right-> DefaultElement: use
+DefaultElementFactory --> java.util.ServiceLoader: use
+
+java.util.ServiceLoader --> ElementFactoryProvider: lookup
+java.util.ServiceLoader --> ElementFactory: lookup
+java.util.ServiceLoader --> Element: lookup
+
+note bottom of DefaultElementFactoryProvider
+    ElementFactory f = null;
+    Iterator<ElementFactory> it =
+        ServiceLoader.load(ElementFactory.class).iterator();
+    while(it.hasNext())
+        if( (f = it.next()).accept(mimeType))
+            return f;
+    return new DefaultElementFactory();
+end note
+@enduml

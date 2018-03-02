@@ -1,0 +1,75 @@
+@startuml
+
+skinparam backgroundcolor transparent
+skinparam classFontSize 18
+skinparam noteFontSize 18
+skinparam arrowFontSize 18
+skinparam classAttributeFontSize 18
+skinparam packageFontSize 18
+skinparam classStereotypeFontSize 18
+
+skinparam titleFontColor #5cb85c
+
+namespace cu.datys.app{
+    class Main #FEFF99
+
+'    class EntityManagerProviderImpl<<META-INF/services>> implements cu.datys.dao.spi.EntityManagerProvider
+    class EntityManagerProviderImpl<<META-INF/services>> #FEFF99
+    EntityManagerProviderImpl ...down.|> cu.datys.dao.spi.EntityManagerProvider
+
+    EntityManagerProviderImpl --> javax.persistence.EntityManager
+
+    note right of EntityManagerProviderImpl
+        added for lookup support in
+        resources/META-INF/
+        services/cu.datys.dao.spi.
+        EntityManagerProvider file
+    end note
+
+    Main --> cu.datys.data_layer.impl.DataLayerLookup: use
+    Main --> cu.datys.data_layer.spi.IDataLayer: use
+    Main -down-> cu.datys.entity.Person: use
+
+    cu.datys.data_layer.impl.DataLayerLookup --> cu.datys.data_layer.spi.IDataLayer: lookup
+
+    cu.datys.data_layer.impl.DataLayerLookup -right-> cu.datys.respository.api.DAORepository: find
+
+    cu.datys.respository.api.DAORepository -right-> cu.datys.dao.api.EntityDAO: use
+
+    cu.datys.dao.api.EntityDAO ..|> cu.datys.data_layer.spi.IDataLayer
+
+    cu.datys.dao.api.EntityDAO --> javax.persistence.EntityManager: use
+
+    cu.datys.dao.api.EntityDAO --> cu.datys.entity.Person: manage
+    cu.datys.dao.api.EntityDAO --> cu.datys.null_entity.NullPerson: use
+
+    note top of Main
+        IDataLayer<Person> repository = DataLayerLookup.lookup("DAORepository", Person.class);
+        Person p = repository.find(1000);
+        System.out.println(String.format("is Null: %s", String.valueOf(p.isNull())));
+    end note
+}
+
+
+namespace cu.datys.respository.api{
+    class DAORepository<T> #FEFF99
+'
+'    DAORepository --> cu.datys.data_layer.impl.DataLayerLookup
+}
+'
+'namespace cu.datys.respository.impl{
+'    class DAORepositoryFactory<<META-INF/services>> implements cu.datys.data_layer.spi.IDataLayerFactory
+'    DAORepositoryFactory -left-> cu.datys.respository.api.DAORepository: create
+'}
+'
+namespace cu.datys.null_entity{
+'    class NullPerson extends cu.datys.entity.Person implements cu.datys.null_object.spi.NullObject{
+    class NullPerson
+
+    NullPerson --|> cu.datys.entity.Person
+    NullPerson ..|> cu.datys.null_object.spi.NullObject
+}
+
+
+
+@enduml

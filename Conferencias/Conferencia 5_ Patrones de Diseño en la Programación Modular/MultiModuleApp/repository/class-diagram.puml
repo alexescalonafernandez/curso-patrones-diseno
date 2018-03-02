@@ -1,0 +1,94 @@
+@startuml
+
+skinparam backgroundcolor transparent
+skinparam classFontSize 18
+skinparam noteFontSize 18
+skinparam arrowFontSize 18
+skinparam classAttributeFontSize 18
+skinparam packageFontSize 18
+skinparam classStereotypeFontSize 18
+
+skinparam titleFontColor #5cb85c
+
+'Title Module repository
+
+
+namespace cu.datys.data_layer.spi{
+    interface IDataLayerFactoryProvider {
+        IDataLayerFactory getFactory(String mimeType)
+    }
+
+    interface IDataLayerFactory {
+        boolean accept(String mimeType)
+        <T> IDataLayer<T> create(Class<T> entityClass)
+    }
+
+    interface IDataLayer<T> {
+    }
+
+    IDataLayerFactoryProvider -up-> IDataLayerFactory: provide
+    IDataLayerFactory --> IDataLayer: create
+}
+
+
+namespace cu.datys.dao.impl{
+    class DAODataLayerFactory<<META-INF/services>> implements cu.datys.data_layer.spi.IDataLayerFactory
+}
+
+namespace cu.datys.dao.api{
+'    class EntityDAO implements cu.datys.data_layer.spi.IDataLayer
+
+    class EntityDAO
+     EntityDAO ..|> cu.datys.data_layer.spi.IDataLayer
+}
+
+namespace cu.datys.data_layer.impl{
+    class DataLayerLookup {
+        + {static} <T> IDataLayer<T> lookup(String mimeType, Class<T> entityClass)
+    }
+
+    class DataLayerFactoryLookup {
+        + {static} IDataLayerFactory lookup(String mimeType)
+    }
+
+    class DataLayerFactoryProviderLookup {
+        + {static} IDataLayerFactoryProvider lookup()
+    }
+
+
+
+    DataLayerLookup --> DataLayerFactoryLookup: use
+
+    DataLayerFactoryLookup --> DataLayerFactoryProviderLookup: use
+
+    DataLayerFactoryProviderLookup --> cu.datys.service_locator.ServiceProviderLookup: use
+    cu.datys.dao.impl.DAODataLayerFactory -left-> cu.datys.dao.api.EntityDAO: create
+
+    cu.datys.service_locator.ServiceProviderLookup --> cu.datys.dao.impl.DAODataLayerFactory: find
+    cu.datys.service_locator.ServiceProviderLookup --> cu.datys.data_layer.spi.IDataLayerFactoryProvider: lookup
+}
+
+
+namespace cu.datys.respository.api{
+'    class DAORepository<T> implements cu.datys.data_layer.spi.IDataLayer
+'    class MemoryRepository<T> implements cu.datys.data_layer.spi.IDataLayer
+
+    class DAORepository<T>
+    class MemoryRepository<T>
+
+    DAORepository ...|> cu.datys.data_layer.spi.IDataLayer
+    MemoryRepository ...|> cu.datys.data_layer.spi.IDataLayer
+
+    DAORepository --> cu.datys.data_layer.impl.DataLayerLookup: use
+}
+
+namespace cu.datys.respository.impl{
+    class DAORepositoryFactory<<META-INF/services>> #FEFF99 implements cu.datys.data_layer.spi.IDataLayerFactory
+
+    class MemoryRepositoryFactory<<META-INF/services>> #FEFF99 implements cu.datys.data_layer.spi.IDataLayerFactory
+
+    DAORepositoryFactory --> cu.datys.respository.api.DAORepository: create
+    MemoryRepositoryFactory --> cu.datys.respository.api.MemoryRepository: create
+}
+
+@enduml

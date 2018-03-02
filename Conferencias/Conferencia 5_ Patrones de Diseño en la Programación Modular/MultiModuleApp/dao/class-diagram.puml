@@ -1,0 +1,112 @@
+@startuml
+
+skinparam backgroundcolor transparent
+skinparam classFontSize 18
+skinparam noteFontSize 18
+skinparam arrowFontSize 18
+skinparam classAttributeFontSize 18
+skinparam packageFontSize 18
+skinparam classStereotypeFontSize 18
+
+skinparam titleFontColor #5cb85c
+
+'Title Module dao
+
+namespace cu.datys.dao.spi{
+    interface EntityManagerProvider {
+        EntityManager getEntityManger()
+    }
+
+'    EntityManagerProvider -> javax.persistence.EntityManager: provides
+}
+
+namespace cu.datys.dao.api{
+'    abstract class EntityDAO<T> implements cu.datys.data_layer.spi.IDataLayer{
+    abstract class EntityDAO<T>{
+        # {abstract} EntityManager getEntityManager()
+        # T getNullObject()
+    }
+
+    EntityDAO ..|> cu.datys.data_layer.spi.IDataLayer
+
+    class DAOFactory{
+         + {static} <T> EntityDAO<T> createEntityDAO(Class<T> entityClass)
+         + {static} <T> EntityDAO<T> createEntityDAO(Class<T> entityClass, final EntityManager em)
+    }
+
+    DAOFactory -right-> cu.datys.service_locator.ServiceProviderLookup
+    cu.datys.service_locator.ServiceProviderLookup -down-> cu.datys.dao.spi.EntityManagerProvider: lookup
+
+'    DAOFactory --> cu.datys.dao.spi.EntityManagerProvider: use
+    DAOFactory --> EntityDAO: create
+
+    note bottom of DAOFactory
+        return new EntityDAO<T>(entityClass) {
+            @Override
+            protected EntityManager getEntityManager() {
+                return em;
+            }
+        };
+    end note
+
+    note top of EntityDAO
+        use
+        Null
+        Object
+        Lookup
+    end note
+
+'    EntityDAO -right-> cu.datys.null_object.impl.NullObjectLookup: use
+}
+
+namespace cu.datys.dao.impl{
+    class DAODataLayerFactory<<META-INF/services>> #FEFF99 implements cu.datys.data_layer.spi.IDataLayerFactory
+'    class DAODataLayerFactory<<META-INF/services>>
+'    DAODataLayerFactory .|> cu.datys.data_layer.spi.IDataLayerFactory
+
+
+
+
+    DAODataLayerFactory -right-> cu.datys.dao.api.DAOFactory: use
+
+}
+
+namespace cu.datys.data_layer.spi{
+    interface IDataLayer<T> {
+        + Class<T> getEntityClass()
+        + void create(T entity)
+        + void edit(T entity)
+        + void remove(T entity)
+        + T find(Object id)
+        + List<T> findAll()
+        + List<T> findRange(int[] range)
+        + List<T> findBy(String field, Object value)
+        + List<T> like(String field, String value)
+        + int count()
+    }
+
+    interface IDataLayerFactory {
+        boolean accept(String mimeType)
+        <T> IDataLayer<T> create(Class<T> entityClass)
+    }
+
+    interface IDataLayerFactoryProvider {
+        IDataLayerFactory getFactory(String mimeType)
+    }
+
+'    IDataLayerFactoryProvider -down-> IDataLayerFactory: provide
+'    IDataLayerFactory -up-> IDataLayer: create
+
+    IDataLayerFactoryProvider -> IDataLayerFactory: provide
+    IDataLayerFactory -> IDataLayer: create
+}
+
+cu.datys.dao.api.DAOFactory --> cu.datys.dao.spi.EntityManagerProvider
+
+'namespace cu.datys.null_object.impl{
+'    class NullObjectLookup{
+'        + {static} NullObject lookup(Class nullable)
+'    }
+'}
+
+@enduml

@@ -1,0 +1,63 @@
+@startuml
+
+skinparam backgroundcolor transparent
+skinparam classFontSize 18
+skinparam noteFontSize 18
+skinparam arrowFontSize 18
+skinparam classAttributeFontSize 18
+skinparam classStereotypeFontSize 18
+skinparam packageFontSize 18
+
+skinparam titleFontColor #5cb85c
+
+'Title SPI in Java
+
+namespace cu.datys.spi{
+    interface IHello{
+        + void sayHello(String name)
+    }
+}
+
+namespace cu.datys.impl{
+    class HelloImpl {
+        + void sayHello(String name)
+    }
+
+    HelloImpl ..|> cu.datys.spi.IHello
+
+    note bottom of HelloImpl
+        create file cu.datys.spi.IHello in resources/META-INF/services.
+        Write in file the next line: cu.datys.impl.HelloImpl
+    end note
+
+    note right of HelloImpl::s
+        String p = "Hello %s!";
+        String msg = String.format(p, name);
+        System.out.println(msg);
+    end note
+}
+
+namespace java.util{
+    class ServiceLoader<S>{
+        + {static} ServiceLoader load(Class service)
+        + {static} ServiceLoader load(Class service, ClassLoader loader)
+    }
+
+    note left of ServiceLoader::l
+        search in classpath inside of all
+        jars META-INF/services folder
+    end note
+}
+
+namespace cu.datys.app{
+    class Main #FEFF99
+
+    Main -left-> java.util.ServiceLoader: use
+    Main --> cu.datys.spi.IHello: use
+
+    java.util.ServiceLoader --> cu.datys.spi.IHello: lookup
+    java.util.ServiceLoader --> cu.datys.impl.HelloImpl: find
+}
+
+
+@enduml

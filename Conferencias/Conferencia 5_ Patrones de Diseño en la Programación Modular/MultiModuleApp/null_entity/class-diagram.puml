@@ -1,0 +1,68 @@
+@startuml
+
+@startuml
+
+skinparam backgroundcolor transparent
+skinparam classFontSize 18
+skinparam noteFontSize 18
+skinparam arrowFontSize 18
+skinparam classAttributeFontSize 18
+skinparam packageFontSize 18
+skinparam classStereotypeFontSize 18
+
+skinparam titleFontColor #5cb85c
+
+'Title Module null_entity
+
+class NullPerson extends cu.datys.entity.Person implements cu.datys.null_object.spi.NullObject{
+    + boolean isNull()
+    + String getName()
+}
+
+class NullPersonFactory #FEFF99 implements cu.datys.null_object.spi.NullObjectFactory{
+    + boolean accept(Class nulleable)
+    + NullObject create()
+}
+
+NullPersonFactory --> NullPerson: create
+
+note bottom of NullPersonFactory
+    added for lookup support in
+    resources/META-INF/
+    services/cu.datys.null_object
+    .spi.NullObjectFactory file
+end note
+
+namespace cu.datys.null_object.spi{
+    interface NullObject {
+        + default boolean isNull()
+    }
+
+    interface NullObjectFactory {
+        + boolean accept(Class nullable)
+        + NullObject create()
+    }
+
+    NullObjectFactory -> NullObject: create
+}
+
+namespace cu.datys.entity{
+    interface IPerson extends cu.datys.null_object.spi.NullObject{
+        + Integer getId()
+        + void setId(Integer id)
+        + String getName()
+        + void setName(String name)
+        + Integer getAge()
+        + void setAge(Integer age)
+    }
+
+    class Person<<@Entity>>{
+        - Integer id
+        - String name
+        - Integer age
+    }
+
+    Person .|> IPerson
+}
+
+@enduml

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/dao/dao.iml" filepath="$PROJECT_DIR$/dao/dao.iml" />
+      <module fileurl="file://$PROJECT_DIR$/data_layer/data_layer.iml" filepath="$PROJECT_DIR$/data_layer/data_layer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/entity/entity.iml" filepath="$PROJECT_DIR$/entity/entity.iml" />
+      <module fileurl="file://$PROJECT_DIR$/null_entity/null_entity.iml" filepath="$PROJECT_DIR$/null_entity/null_entity.iml" />
+      <module fileurl="file://$PROJECT_DIR$/null_object/null_object.iml" filepath="$PROJECT_DIR$/null_object/null_object.iml" />
+      <module fileurl="file://$PROJECT_DIR$/repository/repository.iml" filepath="$PROJECT_DIR$/repository/repository.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service_locator/service_locator.iml" filepath="$PROJECT_DIR$/service_locator/service_locator.iml" />
+    </modules>
+  </component>
+</project>

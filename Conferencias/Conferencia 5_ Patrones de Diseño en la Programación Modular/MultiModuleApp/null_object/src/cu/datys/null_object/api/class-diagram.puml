@@ -1,0 +1,83 @@
+@startuml
+
+skinparam backgroundcolor transparent
+skinparam classFontSize 18
+skinparam noteFontSize 18
+skinparam arrowFontSize 18
+skinparam classAttributeFontSize 18
+skinparam packageFontSize 18
+skinparam classStereotypeFontSize 18
+
+skinparam titleFontColor #FFFFFF
+
+skinparam titleFontSize 32
+
+Title Module null_object: cu.datys.null_object.api package
+
+class MockedMethod<<Builder>>{
+    - Class<?> declaringClass
+    - String methodName
+    - Object expectedReturn
+    - Class<?>[] parameterTypes
+}
+
+class NullObjectProxyFactory<<java.lang.reflect.Proxy Factory>>  #FEFF99{
+    + {static} Object create(Class<?> interfaceClass)
+    + {static} Object create(Class<?>[] interfaceClasses)
+}
+
+class NullObjectProxyHandler<<Singleton>> implements java.lang.reflect.InvocationHandler{
+    - {static} Map<String, Map<Class<?>, Method>> mockedMethodMap
+    - {static} Map<Method, Object> mockedMethodValuesMap
+    + Object invoke(Object proxy, Method method, Object[] args)
+    + {static} <T> null<T>Value()
+}
+
+NullObjectProxyHandler --> MockedMethod: use
+NullObjectProxyFactory --> NullObjectProxyHandler: use
+NullObjectProxyHandler --> NullObjectProxyFactory: use
+
+java.lang.reflect.Proxy -> java.lang.reflect.InvocationHandler: use
+
+
+note left of NullObjectProxyHandler
+    //FIRST
+    Method mockedMethod =
+        getMockedMethod(method);
+    if(mockedMethod != null)
+        return mockedMethodValuesMap
+            .get(mockedMethod);
+    final Class<?> returnedType =
+        method.getReturnType();
+end note
+
+note top of NullObjectProxyHandler
+    //SECOND
+    Callable[] strategies = new Callable[]{
+        () -> NullObjectProxyHandler.class.getDeclaredMethod(String.format(
+                    "null%sValue",returnedType.getSimpleName())).invoke(null),
+        () -> NullObjectProxyFactory.create(returnedType),
+        () -> returnedType.newInstance()
+    };
+end note
+
+note bottom of NullObjectProxyHandler
+    //THIRD
+    for(Callable<Object> s : strategies)
+        try {
+            return s.call();
+        }
+        catch (Exception ex){}
+    return null;
+end note
+
+note right of NullObjectProxyHandler::null
+    <T> means one method
+    of type: Boolean,
+    boolean, String, Date,
+    Integer, int, Long, long,
+    Double, double, Float,
+    float, Character, char
+end note
+
+@enduml

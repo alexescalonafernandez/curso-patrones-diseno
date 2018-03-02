@@ -1,0 +1,92 @@
+@startuml
+
+skinparam backgroundcolor transparent
+skinparam classFontSize 18
+skinparam noteFontSize 18
+skinparam arrowFontSize 18
+skinparam classAttributeFontSize 18
+skinparam packageFontSize 18
+skinparam classStereotypeFontSize 18
+
+skinparam titleFontColor #5cb85c
+
+'Title Module null_object
+
+'namespace cu.datys.null_object.api{
+    class NullObjectProxyFactory{
+        + {static} Object create(Class<?> interfaceClass)
+        + {static} Object create(Class<?>[] interfaceClasses)
+    }
+
+    class NullObjectProxyHandler implements java.lang.reflect.InvocationHandler{
+        - {static} Map<String, Map<Class<?>, Method>> mockedMethodMap
+        - {static} Map<Method, Object> mockedMethodValuesMap
+        - NullObjectProxyHandler()
+        + {static} NullObjectProxyHandler getInstance()
+        + Object invoke(Object proxy, Method method, Object[] args) throws Throwable
+'        + {static} Boolean nullBooleanValue()
+'        + {static} boolean nullbooleanValue()
+'        + {static} String nullStringValue()
+'        + {static} Date nullDateValue()
+'        + {static} Integer nullIntegerValue()
+'        + {static} int nullintValue()
+'        + {static} Long nullLongValue()
+'        + {static} long nulllongValue()
+'        + {static} Double nullDoubleValue()
+'        + {static} double nulldoubleValue()
+'        + {static} Float nullFloatValue()
+'        + {static} float nullfloatValue()
+'        + {static} Character nullCharacterValue()
+'        + {static} char nullcharValue()
+        + {static}  void setMockedMethod(Class<?> clazz, String methodName, Object expectedReturn, Class<?>... paramterTypes)
+        - {static} Method getMockedMethod(Method toMock)
+    }
+
+    class SingletonHolder<<private final static>>{
+        - final {static} NullObjectProxyHandler INSTANCE = new NullObjectProxyHandler()
+    }
+
+    NullObjectProxyHandler +-- SingletonHolder
+    NullObjectProxyFactory --> NullObjectProxyHandler: use
+'}
+
+'namespace cu.datys.null_object.spi{
+    interface NullObject{
+        + default boolean isNull()
+    }
+
+    interface NullObjectFactory {
+        + boolean accept(Class nullable)
+        + NullObject create()
+    }
+
+    interface NullObjectFactoryProvider {
+        + NullObjectFactory getFactory(Class nullable)
+    }
+
+    NullObjectFactory -down-> NullObject: create
+    NullObjectFactoryProvider -left-> NullObjectFactory: provide
+'}
+
+'namespace cu.datys.null_object.impl{
+    class NullObjectFactoryProviderLookup{
+        + {static} NullObjectFactoryProvider lookup()
+    }
+
+    class NullObjectFactoryLookup{
+        + {static} NullObjectFactory lookup(Class nullable)
+    }
+
+    class NullObjectLookup{
+        + {static} NullObject lookup(Class nullable)
+    }
+
+    NullObjectLookup -right-> NullObjectFactoryLookup: use
+    NullObjectLookup --> NullObjectProxyFactory: use
+
+    NullObjectFactoryLookup -right-> NullObjectFactoryProviderLookup: use
+    NullObjectFactoryProviderLookup -up-> cu.datys.service_locator.ServiceProviderLookup: use
+    cu.datys.service_locator.ServiceProviderLookup -left-> NullObjectFactoryProvider: lookup
+
+
+@enduml
