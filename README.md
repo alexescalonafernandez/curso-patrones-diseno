@@ -92,4 +92,51 @@ Los temas que se abordan en este curso son los Principios de Diseño más utiliz
         * Definición
         * Estructura
         * Ejemplo
+4) [Patrones de Diseño de Comportamiento](/Conferencias/Conferencia%204_%20Patrones%20de%20Diseño%20de%20Comportamiento)
+    - ¿Qué es un patrón de comportamiento?
+    - Patrón Chain of Responsibility
+        * Definición
+        * Estructura
+        * Ejemplo
+    - Patrón Command
+        * Definición
+        * Estructura
+        * Ejemplo
+    - Patrón Interpreter
+        * Definición
+        * Estructura
+        * Ejemplo
+    - Patrón Iterator
+        * Definición
+        * Estructura
+        * Ejemplo
+    - Patrón Mediator
+        * Definición
+        * Estructura
+        * Ejemplo
+    - Patrón Memento
+        * Definición
+        * Estructura
+        * Ejemplo
+    - Patrón Observer
+        * Definición
+        * Estructura
+        * Ejemplo
+    - Patrón State
+        * Definición
+        * Estructura
+        * Ejemplo
+    - Patrón Strategy
+        * Definición
+        * Estructura
+        * Ejemplo
+    - Patrón Template Method
+        * Definición
+        * Estructura
+        * Ejemplo
+    - Patrón Visitor
+        * Definición
+        * Estructura
+        * Ejemplo
+
 
