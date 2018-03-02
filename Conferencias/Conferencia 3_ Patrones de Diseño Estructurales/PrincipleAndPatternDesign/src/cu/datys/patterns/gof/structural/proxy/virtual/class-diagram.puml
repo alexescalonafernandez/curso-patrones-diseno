@@ -1,0 +1,43 @@
+@startuml
+
+skinparam backgroundcolor transparent
+skinparam classFontSize 18
+skinparam noteFontSize 18
+skinparam arrowFontSize 18
+skinparam classAttributeFontSize 18
+
+skinparam titleFontColor #5cb85c
+
+Title Virtual Proxy Pattern Example
+
+interface Image {
+    + void draw()
+}
+
+class RealImage implements Image{
+    - File image
+    + RealImage(String path)
+    - void loadImage(String path)
+    + void draw()
+}
+
+class ProxyImage implements Image{
+    - final String path
+    - RealImage image
+    + ProxyImage(String path)
+    + void draw()
+}
+
+ProxyImage --> RealImage
+
+note right of RealImage::RealImage
+    //costly operation
+    loadImage(path);
+end note
+
+note right of ProxyImage::draw
+    if(image == null)
+        image = new RealImage(path);
+    image.draw();
+end note
+@enduml

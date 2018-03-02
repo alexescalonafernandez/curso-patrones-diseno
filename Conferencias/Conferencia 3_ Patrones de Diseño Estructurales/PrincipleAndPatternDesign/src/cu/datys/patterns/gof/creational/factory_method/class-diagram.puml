@@ -1,0 +1,33 @@
+@startuml
+skinparam backgroundcolor transparent
+skinparam classFontSize 18
+skinparam noteFontSize 18
+skinparam arrowFontSize 18
+skinparam classAttributeFontSize 18
+
+skinparam titleFontColor #5cb85c
+
+Title Factory Method Pattern
+
+interface Product
+
+class ConcreteProduct implements Product
+
+interface Factory{
+    + Product create()
+}
+
+class ConcreteFactory implements Factory{
+    + Product create()
+}
+
+ConcreteFactory --> ConcreteProduct: create
+
+note right of ConcreteFactory::create
+    public Product create(){
+        return new ConcreteProduct();
+    }
+end note
+
+
+@enduml

@@ -1,0 +1,42 @@
+@startuml
+skinparam backgroundcolor transparent
+skinparam classFontSize 18
+skinparam noteFontSize 18
+skinparam arrowFontSize 18
+skinparam classAttributeFontSize 18
+skinparam packageFontSize 18
+
+skinparam titleFontColor #5cb85c
+
+Title Adapter Pattern Example
+
+interface Customer {
+	+ String getId()
+	+ String getFirstName()
+	+ String getLastName()
+	+ String getEmail()
+}
+
+class CustomerCSV{
+    + CustomerCSV(String values)
+    + int getId()
+    + String getFirstname()
+    + String getLastname()
+    + String getEmailAddress()
+}
+
+'class CustomerDB implements Customer
+
+class CustomerAdapterCSV implements Customer{
+    - CustomerCSV instance
+    + CustomerAdapterCSV(CustomerCSV instance)
+    + String getId()
+    + String getFirstName()
+    + String getLastName()
+    + String getEmail()
+}
+
+CustomerAdapterCSV *-- CustomerCSV
+
+
+@enduml

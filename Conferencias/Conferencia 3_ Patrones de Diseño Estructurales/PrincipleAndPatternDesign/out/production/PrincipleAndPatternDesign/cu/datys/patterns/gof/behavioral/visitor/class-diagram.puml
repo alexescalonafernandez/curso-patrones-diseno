@@ -1,0 +1,44 @@
+@startuml
+
+skinparam backgroundcolor transparent
+skinparam classFontSize 18
+skinparam noteFontSize 18
+skinparam arrowFontSize 18
+skinparam classAttributeFontSize 18
+
+skinparam titleFontColor #5cb85c
+
+Title Visitor Pattern
+
+interface Visitor{
+    + void visit(ConcreteElementA element)
+    + void visit(ConcreteElementB element)
+}
+
+interface Element{
+    + void accept(Visitor v)
+}
+
+class ConcreteElementA implements Element{
+    + void accept(Visitor v)
+}
+
+class ConcreteElementB implements Element{
+    + void accept(Visitor v)
+}
+
+class ConcreteVisitor implements Visitor{
+    + void visit(ConcreteElementA element)
+    + void visit(ConcreteElementB element)
+}
+
+class ObjectStructure
+
+ObjectStructure o-- Element
+
+class Client
+
+Client --> Visitor
+Client --> ObjectStructure
+
+@enduml

@@ -1,0 +1,31 @@
+@startuml
+
+skinparam backgroundcolor transparent
+skinparam classFontSize 18
+skinparam noteFontSize 18
+skinparam arrowFontSize 18
+skinparam classAttributeFontSize 18
+
+skinparam titleFontColor #5cb85c
+
+Title Abstract Factory Pattern Example
+
+interface ICar
+interface IScooter
+
+interface IVehicleFactory {
+    + IScooter createScooter();
+    + ICar createCar();
+}
+
+class HondaCar implements ICar
+class HondaScooter implements IScooter
+class HondaFactory implements IVehicleFactory{
+    + IScooter createScooter();
+    + ICar createCar();
+}
+
+HondaFactory --> HondaCar:create
+HondaFactory --> HondaScooter:create
+
+@enduml

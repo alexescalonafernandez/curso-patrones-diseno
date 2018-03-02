@@ -1,0 +1,34 @@
+@startuml
+
+skinparam backgroundcolor transparent
+skinparam classFontSize 18
+skinparam noteFontSize 18
+skinparam arrowFontSize 18
+skinparam classAttributeFontSize 18
+
+skinparam titleFontColor #5cb85c
+
+Title Strategy Pattern
+
+class Context{
+    + void someMethod()
+}
+
+interface Strategy{
+    + void execute()
+}
+
+class ConcreteStrategyA implements Strategy{
+    + void execute()
+}
+class ConcreteStrategyB implements Strategy{
+    + void execute()
+}
+
+Context *-- Strategy
+
+note right of Context::someMethod
+    strategy.execute()
+end note
+
+@enduml

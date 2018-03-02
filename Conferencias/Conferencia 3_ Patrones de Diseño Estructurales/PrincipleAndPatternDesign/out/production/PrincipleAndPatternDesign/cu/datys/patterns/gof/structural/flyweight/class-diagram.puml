@@ -1,0 +1,44 @@
+@startuml
+skinparam backgroundcolor transparent
+skinparam classFontSize 18
+skinparam noteFontSize 18
+skinparam arrowFontSize 18
+skinparam classAttributeFontSize 18
+
+skinparam titleFontColor #5cb85c
+
+Title Flyweight Pattern
+
+interface Flyweight{
+    + void doAction(ExtrinsicState state)
+}
+
+class ConcreteFlyweight implements Flyweight{
+    + void doAction(ExtrinsicState state)
+}
+
+class FlyweightRegistry{
+    + Flyweight getFlyweight(Key key)
+}
+
+FlyweightRegistry o-- "many" Flyweight
+
+note left of FlyweightRegistry::getFlyweight
+    if flyweights[key] exists
+        return flyweights[key]
+    else
+        create new Flyweight f
+        add f to flyweights
+        return f
+end note
+
+class Client
+
+Client --> FlyweightRegistry: get Flyweight
+Client --> Flyweight: use
+
+
+
+
+
+@enduml

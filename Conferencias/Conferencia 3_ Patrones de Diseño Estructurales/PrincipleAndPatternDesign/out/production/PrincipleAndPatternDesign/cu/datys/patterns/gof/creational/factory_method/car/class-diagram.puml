@@ -1,0 +1,41 @@
+@startuml
+skinparam backgroundcolor transparent
+skinparam classFontSize 18
+skinparam noteFontSize 18
+skinparam arrowFontSize 18
+skinparam classAttributeFontSize 18
+
+skinparam titleFontColor #5cb85c
+
+Title Factory Method Pattern Example
+
+interface IEngine
+
+class ElectricEngine implements IEngine
+class FuelEngine implements IEngine
+
+abstract class AbstractCar{
+    - IEngine engine
+    + AbstractCar()
+    + IEngine getEngine()
+    # {abstract}IEngine createEngine()
+}
+
+note right of AbstractCar::AbstractCar
+    public AbstractCar(){
+        this.engine = createEngine();
+    }
+end note
+
+class FuelCar extends AbstractCar{
+    # IEngine createEngine()
+}
+
+class ElectricCar extends AbstractCar{
+    # IEngine createEngine()
+}
+
+FuelCar --> FuelEngine: create
+ElectricCar --> ElectricEngine: create
+
+@enduml

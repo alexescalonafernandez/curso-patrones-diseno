@@ -1,0 +1,37 @@
+@startuml
+skinparam backgroundcolor transparent
+skinparam classFontSize 18
+skinparam noteFontSize 18
+skinparam arrowFontSize 18
+skinparam classAttributeFontSize 18
+
+skinparam titleFontColor #c9302c
+
+Title LSP: Uso incorrecto
+
+class Rectangle{
+    # int width
+    # int height
+    + Rectangle(int width, int height)
+    + int getWidth()
+    + int setWidth(int w)
+    + int getHeight()
+    + int setHeight(int h)
+    + int area()
+}
+
+class Square extends Rectangle{
+    + Square(int width)
+    + int setWidth(int w)
+    + int setHeight(int h)
+}
+
+note right of Square::setWidth{
+    this.width = this.height = w;
+}
+
+note right of Square::setHeight{
+    this.width = this.height = h;
+}
+
+@enduml

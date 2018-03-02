@@ -1,0 +1,55 @@
+@startuml
+
+skinparam backgroundcolor transparent
+skinparam classFontSize 18
+skinparam noteFontSize 18
+skinparam arrowFontSize 18
+skinparam classAttributeFontSize 18
+
+skinparam titleFontColor #5cb85c
+
+Title Dynamic Proxy Pattern Example
+
+interface ILink {
+    + String getUrl()
+    + String getRel()
+}
+
+class ApiLink {
+    - String url, rel, title
+    + String getUrl()
+    + String getRel()
+    + String getTitle()
+}
+
+class DynamicProxyFactory {
+    + {static} <T> T createProxy(Class<T> clazz, final Object obj)
+    - {static} boolean hasSameMethodSignatures(Class clazz, Object obj)
+}
+
+DynamicProxyFactory --> ILink: clazz
+DynamicProxyFactory --> ApiLink: obj
+
+note top of DynamicProxyFactory
+    //createProxy method code
+    if(clazz != null && obj != null && hasSameMethodSignatures(clazz, obj))
+        return (T)Proxy.newProxyInstance(clazz.getClassLoader(), new Class[]{clazz}, new InvocationHandler() {
+                @Override
+                public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+                    return obj.getClass().getDeclaredMethod(method.getName(), method.getParameterTypes()).invoke(obj, args);
+                }
+            }
+        );
+    return null;
+end note
+
+note right of DynamicProxyFactory::hasSameMethodSignatures
+    check if obj has the
+    same methods of clazz
+end note
+
+DynamicProxyFactory --> java.lang.reflect.InvocationHandler: use
+DynamicProxyFactory --> java.lang.reflect.Proxy: use
+DynamicProxyFactory --> java.lang.reflect.Method: use
+
+@enduml

@@ -1,0 +1,35 @@
+@startuml
+
+skinparam backgroundcolor transparent
+skinparam classFontSize 18
+skinparam noteFontSize 18
+skinparam arrowFontSize 18
+skinparam classAttributeFontSize 18
+
+skinparam titleFontColor #5cb85c
+
+Title Observer Pattern
+
+abstract class Observable{
+    + {abstract} void attach(Observer observer)
+    + {abstract} void detach(Observer observer)
+    + {abstract} void notify()
+}
+
+interface Observer{
+    + void update()
+}
+
+class ConcreteObservable extends Observable{
+    + void attach(Observer observer)
+    + void detach(Observer observer)
+    + void notify()
+}
+
+class ConcreteObserver implements Observer{
+    + void update()
+}
+
+Observable *-- "many" Observer
+
+@enduml

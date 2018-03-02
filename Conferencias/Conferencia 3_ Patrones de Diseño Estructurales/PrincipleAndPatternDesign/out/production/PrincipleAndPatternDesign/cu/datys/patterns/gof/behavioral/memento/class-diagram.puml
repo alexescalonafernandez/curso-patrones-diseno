@@ -1,0 +1,34 @@
+@startuml
+
+skinparam backgroundcolor transparent
+skinparam classFontSize 18
+skinparam noteFontSize 18
+skinparam arrowFontSize 18
+skinparam classAttributeFontSize 18
+
+skinparam titleFontColor #5cb85c
+
+Title Memento Pattern
+
+class Originator{
+    - State state
+    + Memento createMemento()
+    + void restoreFromMemento(Memento m)
+}
+
+class Memento{
+    - State state
+    + void State getState()
+}
+
+class CareTaker
+
+
+CareTaker o-- Memento
+Originator --> Memento
+
+class Client
+
+Client --> CareTaker
+Client --> Originator
+@enduml

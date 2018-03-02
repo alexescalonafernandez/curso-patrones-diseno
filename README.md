@@ -1,7 +1,4 @@
 # Curso de Patrones de Diseño en Java
-# Curso de Patrones de Diseños y Programación Modular en Java
-Curso de Principios de Diseño, Patrones de Diseños GoF y Programación Modular en Java
-
 
 Para la mayor parte de los desarrolladores lo más importante es sin ninguna duda el conjunto de frameworks que ha de utilizar. Aunque evidentemente esto es clave a la hora de desarrollar una arquitectura, es todavía más importante conocer y comprender los distintos patrones de diseño.
 

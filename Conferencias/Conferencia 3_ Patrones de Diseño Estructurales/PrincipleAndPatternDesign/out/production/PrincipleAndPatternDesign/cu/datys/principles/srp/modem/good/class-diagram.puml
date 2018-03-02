@@ -1,0 +1,45 @@
+@startuml
+skinparam backgroundcolor transparent
+skinparam classFontSize 18
+skinparam noteFontSize 18
+skinparam arrowFontSize 18
+skinparam classAttributeFontSize 18
+
+skinparam titleFontColor #5cb85c
+
+Title SRP: Uso correcto
+
+interface IConnection{
+    + void dial(String phoneNumber)
+    + void disconnect()
+}
+
+interface IDataChannel{
+    + void send(char c)
+    + char receive()
+}
+
+class ConnectionManager implements IConnection
+
+class DataChannelFastMode implements IDataChannel
+class DataChannelSlowMode implements IDataChannel
+
+class Modem implements IConnection, IDataChannel{
+    + Modem(IConnection connection, IDataChannel dataChannel)
+}
+Modem *-- IConnection
+Modem *-- IDataChannel
+
+class ModemFastClient
+'class ModemSlowClient
+
+ModemFastClient --> DataChannelFastMode: use
+ModemFastClient --> ConnectionManager: use
+
+'ModemSlowClient --> DataChannelSlowMode: use
+'ModemSlowClient --> ConnectionManager: use
+
+ModemFastClient --> Modem: create
+'ModemSlowClient --> Modem: create
+
+@enduml

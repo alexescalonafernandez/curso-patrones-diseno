@@ -1,0 +1,99 @@
+@startuml
+
+skinparam backgroundcolor transparent
+skinparam classFontSize 18
+skinparam noteFontSize 18
+skinparam arrowFontSize 18
+skinparam classAttributeFontSize 18
+
+skinparam titleFontColor #5cb85c
+
+Title Decorator Pattern Example
+
+'class java.awt.Graphics
+
+interface IComponent {
+    + void draw(java.awt.Graphics g)
+}
+
+'IComponent --> java.awt.Graphics: use
+
+interface IComposite extends IComponent{
+    + boolean add(IComponent child)
+    + boolean remove(IComponent child)
+}
+
+class Container implements IComposite{
+    - final List<IComponent> childs
+    - int x
+    - int y
+'    + Container(int x, int y)
+    + boolean add(IComponent child)
+    + boolean remove(IComponent child)
+    + void draw(Graphics g)
+}
+
+'class Line implements IComponent{
+'    - int x1
+'    - int y1
+'    - int x2
+'    - int y2
+''    + Line(int x1, int y1, int x2, int y2)
+'    + void draw(Graphics g)
+'}
+
+class Rectangle implements IComponent{
+    - int x1
+    - int y1
+    - int width
+    - int height
+'    + Rectangle(int x, int y, int width, int height)
+    + void draw(Graphics g)
+}
+
+class RectangleDecorator implements IComponent{
+    - Rectangle rectangle
+    - boolean fill
+    + RectangleDecorator(Rectangle r, boolean f)
+    + void draw(Graphics g)
+}
+
+RectangleDecorator *-- Rectangle
+
+
+note left of Container::draw
+    g.translate(x, y);
+    for(IComponent c : childs)
+        c.draw(g);
+end note
+
+'note left of Line::draw
+'    g.drawLine(
+'        x1, y1,
+'        x2, y2
+'    );
+'end note
+
+note left of Rectangle::draw
+    g.drawRect(
+        x, y,
+        width,
+        height
+    );
+end note
+
+note left of RectangleDecorator::draw
+    Rectangle r =
+        rectangle;
+    if(fill){
+        g.fillRect(
+            r.getX(),
+            r.getY(),
+            r.getWidth(),
+            r.getHeight()
+         );
+    }
+    else r.draw(g);
+end note
+
+@enduml
