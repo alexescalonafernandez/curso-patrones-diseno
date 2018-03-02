@@ -1,0 +1,28 @@
+@startuml
+skinparam backgroundcolor transparent
+skinparam classFontSize 18
+skinparam noteFontSize 18
+skinparam arrowFontSize 18
+skinparam classAttributeFontSize 18
+
+skinparam titleFontColor #5cb85c
+
+Title Builder Pattern
+
+class Director
+
+class Builder{
+    + void buildPart()
+}
+
+class ConcreteBuilder extends Builder{
+    + void buildPart()
+    + Product getResult()
+}
+
+class Product
+
+Director o-- Builder
+ConcreteBuilder --> Product: create
+
+@enduml

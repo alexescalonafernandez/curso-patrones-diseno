@@ -1,0 +1,30 @@
+@startuml
+skinparam backgroundcolor transparent
+skinparam classFontSize 18
+skinparam noteFontSize 18
+skinparam arrowFontSize 18
+skinparam classAttributeFontSize 18
+
+skinparam titleFontColor #c9302c
+
+Title ISP: Uso incorrecto
+
+interface IMediaPlayer{
+    + void playAudio()
+    + void playVideo()
+}
+
+class DivMediaPlayer implements IMediaPlayer
+class VlcMediaPlayer implements IMediaPlayer
+class WinampMediaPlayer implements IMediaPlayer
+class VideoUnsupportedException
+
+WinampMediaPlayer --> VideoUnsupportedException : throws
+
+note top of WinampMediaPlayer{
+    Solo reproduce audio,
+    por lo que lanza excepción
+    en el método playVideo
+}
+
+@enduml

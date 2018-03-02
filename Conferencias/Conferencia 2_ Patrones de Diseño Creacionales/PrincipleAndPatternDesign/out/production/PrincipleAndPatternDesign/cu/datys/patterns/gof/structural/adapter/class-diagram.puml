@@ -1,0 +1,57 @@
+@startuml
+skinparam backgroundcolor transparent
+skinparam classFontSize 18
+skinparam noteFontSize 18
+skinparam arrowFontSize 18
+skinparam classAttributeFontSize 18
+skinparam packageFontSize 18
+
+skinparam titleFontColor #5cb85c
+
+Title Adapter Pattern
+
+namespace object.Adapter{
+    interface Target{
+        + void request()
+    }
+
+    class Adapter implements Target{
+        - Adaptee adaptee
+        + void request()
+    }
+
+    class Adaptee{
+        + void specificRequest()
+    }
+
+    Adapter *-- Adaptee
+
+    note right of Adapter::request
+        public void request(){
+            adaptee.specificRequest();
+        }
+    end note
+
+    class Client
+
+    Client --> Target
+}
+
+namespace class.Adapter{
+    interface Target{
+        + void request()
+    }
+
+    class Adaptee{
+        + void specificRequest()
+    }
+
+    class Adapter extends Adaptee implements Target {
+        + void request()
+    }
+
+    class Client
+
+    Client --> Target
+}
+@enduml

@@ -1,0 +1,55 @@
+@startuml
+
+skinparam backgroundcolor transparent
+skinparam classFontSize 18
+skinparam noteFontSize 18
+skinparam arrowFontSize 18
+skinparam classAttributeFontSize 18
+
+skinparam titleFontColor #5cb85c
+
+Title Prototype Pattern Example
+
+interface Cloneable
+
+class Complement implements Cloneable{
+    - String name
+    - Integer productPrice
+    + Complement(String n, Integer p)
+    # Object clone()
+}
+
+class Contract implements Cloneable{
+    - long id
+    - String name;
+    - Complement complement;
+    - BigDecimal price;
+    + Contract(long id, String n, Complement c, BigDecimal p)
+    # Object clone()
+}
+
+Contract *-- Complement
+
+note left of Contract::clone
+    @Override
+    protected Object clone() {
+        Contract cloned;
+        try {
+            cloned = (Contract) super.clone();
+            cloned.complement =
+                (Complement) complement.clone();
+            return cloned;
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+end note
+
+note left of Complement::clone
+    @Override
+    protected Object clone() {
+        return super.clone();
+    }
+end note
+
+@enduml

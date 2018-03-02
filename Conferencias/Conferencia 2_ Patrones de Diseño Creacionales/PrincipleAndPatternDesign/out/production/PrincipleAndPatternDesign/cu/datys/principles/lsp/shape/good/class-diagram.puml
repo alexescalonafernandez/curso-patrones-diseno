@@ -1,0 +1,47 @@
+@startuml
+skinparam backgroundcolor transparent
+skinparam classFontSize 18
+skinparam noteFontSize 18
+skinparam arrowFontSize 18
+skinparam classAttributeFontSize 18
+
+skinparam titleFontColor #5cb85c
+
+Title LSP: Uso correcto
+
+interface IPolygon{
+    + int getNumberOfSides()
+    + int getSideLength(int side)
+    + int area()
+}
+
+abstract class Quadrilateral implements IPolygon{
+    + int getNumberOfSides()
+}
+
+note right of Quadrilateral::getNumberOfSides{
+    return 4;
+}
+
+class Rectangle extends Quadrilateral{
+    - int width
+    - int height
+    + Rectangle(int width, int height)
+    + int getWidth()
+    + int setWidth(int w)
+    + int getHeight()
+    + int setHeight(int h)
+    + int getSideLength(int side)
+    + int area()
+}
+
+class Square extends Quadrilateral{
+    - int width
+    + Square(int width)
+    + int getWidth()
+    + int setWidth(int w)
+    + int getSideLength(int side)
+    + int area()
+}
+
+@enduml

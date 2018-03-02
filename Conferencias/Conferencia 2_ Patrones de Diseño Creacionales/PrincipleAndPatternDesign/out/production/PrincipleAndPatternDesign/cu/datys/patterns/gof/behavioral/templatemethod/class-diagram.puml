@@ -1,0 +1,31 @@
+@startuml
+
+skinparam backgroundcolor transparent
+skinparam classFontSize 18
+skinparam noteFontSize 18
+skinparam arrowFontSize 18
+skinparam classAttributeFontSize 18
+
+skinparam titleFontColor #5cb85c
+
+Title Template Method Pattern
+
+abstract class AbstractClass{
+    + void templateMethod()
+    + {abstract} void primitiveOperation1()
+    + {abstract} void primitiveOperation2()
+}
+
+class ConcreteClass extends AbstractClass{
+    + void primitiveOperation1()
+    + void primitiveOperation2()
+}
+
+note right of AbstractClass::templateMethod
+    //do something
+    primitiveOperation1()
+    //do something
+    primitiveOperation2()
+end note
+
+@enduml

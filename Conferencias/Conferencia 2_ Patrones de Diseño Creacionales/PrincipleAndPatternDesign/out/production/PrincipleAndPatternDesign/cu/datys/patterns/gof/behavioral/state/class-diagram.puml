@@ -1,0 +1,35 @@
+@startuml
+
+skinparam backgroundcolor transparent
+skinparam classFontSize 18
+skinparam noteFontSize 18
+skinparam arrowFontSize 18
+skinparam classAttributeFontSize 18
+
+skinparam titleFontColor #5cb85c
+
+Title State Pattern
+
+class Context{
+    + void request()
+}
+
+interface State{
+    + void handle()
+}
+
+class ConcreteStateA implements State{
+    + void handle()
+}
+class ConcreteStateB implements State{
+    + void handle()
+}
+
+Context o-- State
+
+note right of Context::request
+    state.handle()
+end note
+
+
+@enduml

@@ -1,0 +1,74 @@
+@startuml
+
+skinparam backgroundcolor transparent
+skinparam classFontSize 18
+skinparam noteFontSize 18
+skinparam arrowFontSize 18
+skinparam classAttributeFontSize 18
+skinparam classStereotypeFontSize 18
+
+skinparam titleFontColor #5cb85c
+
+Title Builder Pattern Example
+
+class User {
+    - String name
+    - String mail
+    - String phone
+    - String address
+    - User(Builder builder)
+}
+
+class Builder<<static>>{
+    - String name
+    - String mail
+    - String phone
+    - String address
+    + Builder(String name, String mail)
+    + Builder phone(String phone)
+    + Builder address(String address)
+    + User build()
+}
+
+User +-- Builder
+
+note right of User::User
+    private User(Builder builder) {
+        this.name = builder.name;
+        this.mail = builder.mail;
+        this.phone = builder.phone;
+        this.address = builder.address;
+    }
+end note
+
+note right of Builder::phone(
+    public Builder phone(String phone) {
+        this.phone = phone;
+        return this;
+    }
+end note
+
+note right of Builder::address(
+    public Builder address(String address) {
+        this.address = address;
+        return this;
+    }
+end note
+
+note right of Builder::build
+    public User build(){
+        return new User(this);
+    }
+end note
+
+class Main
+
+Main --> Builder: use
+
+note right of Main
+    User user = new User.Builder("jhon", "jhon@gmail.com")
+                    .phone("53123456")
+                    .build();
+end note
+
+@enduml

@@ -1,0 +1,26 @@
+@startuml
+skinparam backgroundcolor transparent
+skinparam classFontSize 18
+skinparam noteFontSize 18
+skinparam arrowFontSize 18
+skinparam classAttributeFontSize 18
+
+skinparam titleFontColor #5cb85c
+
+Title ISP: Uso correcto
+
+interface IMediaPlayer
+
+interface IAudioMediaPlayer extends IMediaPlayer{
+    + void playAudio()
+}
+
+interface IVideoMediaPlayer extends IAudioMediaPlayer{
+    + void playVideo()
+}
+
+class DivMediaPlayer implements IVideoMediaPlayer
+class VlcMediaPlayer implements IVideoMediaPlayer
+class WinampMediaPlayer implements IAudioMediaPlayer
+
+@enduml

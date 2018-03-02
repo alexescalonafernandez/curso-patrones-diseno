@@ -1,0 +1,32 @@
+@startuml
+skinparam backgroundcolor transparent
+skinparam classFontSize 18
+skinparam noteFontSize 18
+skinparam arrowFontSize 18
+skinparam classAttributeFontSize 18
+
+skinparam titleFontColor #c9302c
+
+Title OCP: Uso incorrecto
+
+interface IShape
+
+class Rectangle implements IShape
+class Circle implements IShape
+
+class GraphicEditor{
+    + void drawShape(Shape shape)
+    - void drawCircle(Circle r)
+    - void drawRectangle(Rectangle r)
+}
+
+GraphicEditor --> IShape: use
+
+note right of GraphicEditor::drawShape
+    if(shape instanceof Circle)
+        drawCircle((Circle) shape);
+    else if(shape instanceof Rectangle)
+        drawRectangle((Rectangle)shape);
+end note
+
+@enduml
